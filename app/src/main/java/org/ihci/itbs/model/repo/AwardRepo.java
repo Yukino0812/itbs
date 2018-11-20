@@ -16,8 +16,4 @@ public interface AwardRepo {
 
     Award getAward(String awardName);
 
-    String getAwardType(String awardName);
-
-    Currency getAwardValue(String awardName);
-
 }
