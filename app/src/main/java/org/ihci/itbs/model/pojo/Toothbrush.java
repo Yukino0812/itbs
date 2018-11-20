@@ -1,6 +1,7 @@
 package org.ihci.itbs.model.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * @author Yukino Yukinoshita
@@ -9,7 +10,7 @@ import java.io.Serializable;
 public class Toothbrush implements Cloneable, Serializable {
 
     private int toothbrushId;
-    private HistoryUse historyUse;
+    private ArrayList<HistoryUse> historyUseArrayList;
 
     public Toothbrush() {
     }
@@ -22,12 +23,12 @@ public class Toothbrush implements Cloneable, Serializable {
         this.toothbrushId = toothbrushId;
     }
 
-    public HistoryUse getHistoryUse() {
-        return historyUse;
+    public ArrayList<HistoryUse> getHistoryUseArrayList() {
+        return historyUseArrayList;
     }
 
-    public void setHistoryUse(HistoryUse historyUse) {
-        this.historyUse = historyUse;
+    public void setHistoryUseArrayList(ArrayList<HistoryUse> historyUseArrayList) {
+        this.historyUseArrayList = historyUseArrayList;
     }
 
     @Override
