@@ -2,6 +2,7 @@ package org.ihci.itbs.model.pojo;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author Yukino Yukinoshita
  */
 
-public class User {
+public class User implements Cloneable, Serializable {
 
     private String userName;
     private String userPassword;
@@ -86,5 +87,10 @@ public class User {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public User clone() throws CloneNotSupportedException {
+        return (User) super.clone();
     }
 }

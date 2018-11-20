@@ -1,12 +1,13 @@
 package org.ihci.itbs.model.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author Yukino Yukinoshita
  */
 
-public class HistoryUse {
+public class HistoryUse implements Cloneable, Serializable {
 
     private Date date;
     private int duration;
@@ -37,5 +38,10 @@ public class HistoryUse {
 
     public void setGainCurrency(Currency gainCurrency) {
         this.gainCurrency = gainCurrency;
+    }
+
+    @Override
+    public HistoryUse clone() throws CloneNotSupportedException {
+        return (HistoryUse) super.clone();
     }
 }

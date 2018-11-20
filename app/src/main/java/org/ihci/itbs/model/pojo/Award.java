@@ -1,10 +1,12 @@
 package org.ihci.itbs.model.pojo;
 
+import java.io.Serializable;
+
 /**
  * @author Yukino Yukinoshita
  */
 
-public class Award {
+public class Award implements Cloneable, Serializable {
 
     private String awardName;
     private String awardType;
@@ -35,5 +37,10 @@ public class Award {
 
     public void setAwardValue(Currency awardValue) {
         this.awardValue = awardValue;
+    }
+
+    @Override
+    public Award clone() throws CloneNotSupportedException {
+        return (Award) super.clone();
     }
 }

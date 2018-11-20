@@ -1,12 +1,13 @@
 package org.ihci.itbs.model.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author Yukino Yukinoshita
  */
 
-public class Goal {
+public class Goal implements Cloneable, Serializable {
 
     private int goalId;
     private String content;
@@ -46,5 +47,10 @@ public class Goal {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    @Override
+    public Goal clone() throws CloneNotSupportedException {
+        return (Goal) super.clone();
     }
 }
