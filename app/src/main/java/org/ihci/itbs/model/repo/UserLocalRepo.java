@@ -140,7 +140,7 @@ public class UserLocalRepo implements UserRepo {
             }
         }
     }
-    
+
     void syncRemoteUser(User user){
         if(localUserArrayList==null){
             localUserArrayList = new ArrayList<>();
@@ -157,6 +157,7 @@ public class UserLocalRepo implements UserRepo {
             e.printStackTrace();
             localUserArrayList.add(user);
         }
+        save();
     }
 
     public static void save() {
