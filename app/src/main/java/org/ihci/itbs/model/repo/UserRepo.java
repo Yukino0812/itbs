@@ -14,9 +14,9 @@ public interface UserRepo {
 
     List<User> listLocalUser();
 
-    void userLogin(String userName, String userPassword);
+    boolean userLogin(String userName, String userPassword);
 
-    void userRegister(String userName, String userPassword);
+    boolean userRegister(User user);
 
     User getUser(String userName);
 
