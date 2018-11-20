@@ -1,7 +1,5 @@
 package org.ihci.itbs.model;
 
-import org.ihci.itbs.model.pojo.User;
-
 /**
  * @author Yukino Yukinoshita
  */
@@ -12,12 +10,12 @@ public class GlobalSettingModel {
 
     private String currentUserName;
 
-    private GlobalSettingModel(){
+    private GlobalSettingModel() {
 
     }
 
-    public static GlobalSettingModel getInstance(){
-        if(INSTANCE==null){
+    public static GlobalSettingModel getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new GlobalSettingModel();
         }
         return INSTANCE;

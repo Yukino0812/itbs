@@ -12,12 +12,12 @@ public class UserRemoteRepo implements UserRepo {
 
     private static UserRemoteRepo INSTANCE = null;
 
-    private UserRemoteRepo(){
+    private UserRemoteRepo() {
 
     }
 
-    public static UserRemoteRepo getInstance(){
-        if(INSTANCE == null){
+    public static UserRemoteRepo getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new UserRemoteRepo();
         }
         return INSTANCE;
@@ -27,7 +27,6 @@ public class UserRemoteRepo implements UserRepo {
     public List<User> listLocalUser() {
         return null;
     }
-
 
 
     @Override

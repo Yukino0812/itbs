@@ -12,12 +12,12 @@ public class GoalRemoteRepo implements GoalRepo {
 
     private static GoalRemoteRepo INSTANCE = null;
 
-    private GoalRemoteRepo(){
+    private GoalRemoteRepo() {
 
     }
 
-    public static GoalRemoteRepo getInstance(){
-        if(INSTANCE==null){
+    public static GoalRemoteRepo getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new GoalRemoteRepo();
         }
         return INSTANCE;

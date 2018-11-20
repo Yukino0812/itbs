@@ -12,12 +12,12 @@ public class AwardRemoteRepo implements AwardRepo {
 
     private static AwardRemoteRepo INSTANCE = null;
 
-    private AwardRemoteRepo(){
+    private AwardRemoteRepo() {
 
     }
 
-    public static AwardRemoteRepo getInstance(){
-        if(INSTANCE==null){
+    public static AwardRemoteRepo getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new AwardRemoteRepo();
         }
         return INSTANCE;

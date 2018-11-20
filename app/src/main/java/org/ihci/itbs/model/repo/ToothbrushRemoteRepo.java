@@ -10,12 +10,12 @@ public class ToothbrushRemoteRepo implements ToothbrushRepo {
 
     private static ToothbrushRemoteRepo INSTANCE = null;
 
-    private ToothbrushRemoteRepo(){
+    private ToothbrushRemoteRepo() {
 
     }
 
-    public static ToothbrushRemoteRepo getInstance(){
-        if(INSTANCE == null){
+    public static ToothbrushRemoteRepo getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new ToothbrushRemoteRepo();
         }
         return INSTANCE;

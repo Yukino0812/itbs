@@ -9,7 +9,7 @@ import org.ihci.itbs.BaseView;
 
 public interface GlobalSettingContract {
 
-    interface View extends BaseView{
+    interface View extends BaseView {
 
     }
 

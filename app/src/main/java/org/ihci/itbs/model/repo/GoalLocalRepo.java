@@ -28,15 +28,15 @@ public class GoalLocalRepo implements GoalRepo {
     private static GoalLocalRepo INSTANCE = null;
     private ArrayList<Goal> localGoalArrayList;
 
-    private GoalLocalRepo(){
+    private GoalLocalRepo() {
 
     }
 
-    public static GoalLocalRepo getInstance(){
-        if(INSTANCE == null){
+    public static GoalLocalRepo getInstance() {
+        if (INSTANCE == null) {
             read();
         }
-        if(INSTANCE == null){
+        if (INSTANCE == null) {
             INSTANCE = new GoalLocalRepo();
         }
         return INSTANCE;
@@ -44,7 +44,7 @@ public class GoalLocalRepo implements GoalRepo {
 
     @Override
     public List<Goal> listAllGoal() {
-        if(localGoalArrayList == null){
+        if (localGoalArrayList == null) {
             localGoalArrayList = new ArrayList<>();
         }
         return localGoalArrayList;
@@ -52,20 +52,20 @@ public class GoalLocalRepo implements GoalRepo {
 
     @Override
     public Goal getGoal(int id) {
-        if(localGoalArrayList == null){
-            localGoalArrayList=new ArrayList<>();
+        if (localGoalArrayList == null) {
+            localGoalArrayList = new ArrayList<>();
             return null;
         }
-        for(Goal goal:localGoalArrayList){
-            if(goal.getGoalId() == id){
+        for (Goal goal : localGoalArrayList) {
+            if (goal.getGoalId() == id) {
                 return goal;
             }
         }
         return null;
     }
 
-    public boolean syncRemoteRepo(final List<Goal> goals){
-        if(localGoalArrayList == null){
+    public boolean syncRemoteRepo(final List<Goal> goals) {
+        if (localGoalArrayList == null) {
             realSync(goals);
             return true;
         }
@@ -73,22 +73,22 @@ public class GoalLocalRepo implements GoalRepo {
         Collections.sort(arrayList1, new Comparator<Goal>() {
             @Override
             public int compare(Goal o1, Goal o2) {
-                return o1.getGoalId()>o2.getGoalId()?1:o1.getGoalId()==o2.getGoalId()?0:-1;
+                return o1.getGoalId() > o2.getGoalId() ? 1 : o1.getGoalId() == o2.getGoalId() ? 0 : -1;
             }
         });
         ArrayList<Goal> arrayList2 = new ArrayList<>(localGoalArrayList);
         Collections.sort(arrayList2, new Comparator<Goal>() {
             @Override
             public int compare(Goal o1, Goal o2) {
-                return o1.getGoalId()>o2.getGoalId()?1:o1.getGoalId()==o2.getGoalId()?0:-1;
+                return o1.getGoalId() > o2.getGoalId() ? 1 : o1.getGoalId() == o2.getGoalId() ? 0 : -1;
             }
         });
-        if(arrayList1.size()!=arrayList2.size()){
+        if (arrayList1.size() != arrayList2.size()) {
             realSync(goals);
             return true;
         }
-        for(int index = 0;index<arrayList1.size();++index){
-            if(arrayList1.get(index).getGoalId()!=arrayList2.get(index).getGoalId()){
+        for (int index = 0; index < arrayList1.size(); ++index) {
+            if (arrayList1.get(index).getGoalId() != arrayList2.get(index).getGoalId()) {
                 realSync(goals);
                 return true;
             }
@@ -96,7 +96,7 @@ public class GoalLocalRepo implements GoalRepo {
         return false;
     }
 
-    private void realSync(List<Goal> goals){
+    private void realSync(List<Goal> goals) {
         localGoalArrayList = new ArrayList<>(goals);
         save();
     }

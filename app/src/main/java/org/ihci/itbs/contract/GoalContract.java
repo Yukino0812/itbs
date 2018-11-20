@@ -12,13 +12,13 @@ import java.util.List;
 
 public interface GoalContract {
 
-    interface View extends BaseView{
+    interface View extends BaseView {
 
         void showGoalList(List<Goal> goals);
 
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
         List<Goal> listAllGoal();
 

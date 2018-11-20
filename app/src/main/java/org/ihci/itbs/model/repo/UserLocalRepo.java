@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -97,7 +96,7 @@ public class UserLocalRepo implements UserRepo {
             addUser(newUser);
             return;
         }
-        if("".equals(oldUserName)){
+        if ("".equals(oldUserName)) {
             addUser(newUser);
         }
 
@@ -123,19 +122,19 @@ public class UserLocalRepo implements UserRepo {
         }
     }
 
-    public void syncRemoteUser(User user){
-        if(localUserArrayList==null){
+    public void syncRemoteUser(User user) {
+        if (localUserArrayList == null) {
             localUserArrayList = new ArrayList<>();
         }
-        for(User user1:localUserArrayList){
-            if(user1.getUserName().equals(user.getUserName())){
-                updateUser(user1.getUserName(),user);
+        for (User user1 : localUserArrayList) {
+            if (user1.getUserName().equals(user.getUserName())) {
+                updateUser(user1.getUserName(), user);
                 return;
             }
         }
         try {
             localUserArrayList.add(user.clone());
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             localUserArrayList.add(user);
         }

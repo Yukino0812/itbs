@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -26,15 +25,15 @@ public class ToothbrushLocalRepo implements ToothbrushRepo {
     private static ToothbrushLocalRepo INSTANCE = null;
     private ArrayList<Toothbrush> localToothbrushArrayList;
 
-    private ToothbrushLocalRepo(){
+    private ToothbrushLocalRepo() {
 
     }
 
-    public static ToothbrushLocalRepo getInstance(){
-        if(INSTANCE == null){
+    public static ToothbrushLocalRepo getInstance() {
+        if (INSTANCE == null) {
             read();
         }
-        if(INSTANCE == null){
+        if (INSTANCE == null) {
             INSTANCE = new ToothbrushLocalRepo();
         }
         return INSTANCE;
@@ -42,12 +41,12 @@ public class ToothbrushLocalRepo implements ToothbrushRepo {
 
     @Override
     public Toothbrush getToothbrush(int toothbrushId) {
-        if(localToothbrushArrayList == null){
+        if (localToothbrushArrayList == null) {
             localToothbrushArrayList = new ArrayList<>();
             return null;
         }
-        for(Toothbrush toothbrush:localToothbrushArrayList){
-            if(toothbrush.getToothbrushId() == toothbrushId){
+        for (Toothbrush toothbrush : localToothbrushArrayList) {
+            if (toothbrush.getToothbrushId() == toothbrushId) {
                 return toothbrush;
             }
         }
@@ -56,34 +55,34 @@ public class ToothbrushLocalRepo implements ToothbrushRepo {
 
     @Override
     public void updateToothbrush(Toothbrush toothbrush) {
-        if(localToothbrushArrayList == null){
+        if (localToothbrushArrayList == null) {
             localToothbrushArrayList = new ArrayList<>();
             addToothbrush(toothbrush);
             return;
         }
-        for(Toothbrush toothbrush1:localToothbrushArrayList){
-            if(toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()){
+        for (Toothbrush toothbrush1 : localToothbrushArrayList) {
+            if (toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()) {
                 toothbrush1.setHistoryUse(toothbrush.getHistoryUse());
             }
         }
         save();
     }
 
-    public void addToothbrush(Toothbrush toothbrush){
-        if(localToothbrushArrayList==null){
+    public void addToothbrush(Toothbrush toothbrush) {
+        if (localToothbrushArrayList == null) {
             localToothbrushArrayList = new ArrayList<>();
         }
         localToothbrushArrayList.add(toothbrush);
         save();
     }
 
-    public void removeToothbrush(Toothbrush toothbrush){
-        if(localToothbrushArrayList == null){
+    public void removeToothbrush(Toothbrush toothbrush) {
+        if (localToothbrushArrayList == null) {
             localToothbrushArrayList = new ArrayList<>();
             return;
         }
-        for (Toothbrush toothbrush1:localToothbrushArrayList){
-            if(toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()){
+        for (Toothbrush toothbrush1 : localToothbrushArrayList) {
+            if (toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()) {
                 localToothbrushArrayList.remove(toothbrush1);
             }
         }

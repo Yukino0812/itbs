@@ -1,7 +1,7 @@
 package org.ihci.itbs.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import org.ihci.itbs.R;
 import org.ihci.itbs.contract.CalendarContract;

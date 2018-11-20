@@ -9,11 +9,11 @@ import org.ihci.itbs.BaseView;
 
 public interface RecommendContract {
 
-    interface View extends BaseView{
+    interface View extends BaseView {
 
     }
 
-    interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter {
 
     }
 

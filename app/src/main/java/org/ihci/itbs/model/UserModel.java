@@ -23,42 +23,42 @@ public class UserModel {
     private BasePresenter presenter;
     private ThreadPoolExecutor singleThread;
 
-    public UserModel(BasePresenter presenter){
+    public UserModel(BasePresenter presenter) {
         this.presenter = presenter;
         initThread();
     }
 
-    public List<User> listLocalUser(){
+    public List<User> listLocalUser() {
         return UserLocalRepo.getInstance().listLocalUser();
     }
 
-    public User getLocalUser(String userName){
+    public User getLocalUser(String userName) {
         User localUser = UserLocalRepo.getInstance().getUser(userName);
         try {
             return localUser.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return localUser;
         }
     }
 
-    public User getUser(String userName){
+    public User getUser(String userName) {
         User localUser = UserLocalRepo.getInstance().getUser(userName);
         User remoteUser = UserRemoteRepo.getInstance().getUser(userName);
         syncUser(localUser, remoteUser);
         try {
             return remoteUser.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return remoteUser;
         }
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         User newUser;
         try {
             newUser = user.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             newUser = user;
         }
@@ -73,19 +73,19 @@ public class UserModel {
         });
     }
 
-    public void removeLocalUser(User user){
+    public void removeLocalUser(User user) {
         removeLocalUser(user.getUserName());
     }
 
-    public void removeLocalUser(String userName){
+    public void removeLocalUser(String userName) {
         UserLocalRepo.getInstance().removeUserFromLocal(userName);
     }
 
-    public void updateUser(String userName, User user){
+    public void updateUser(String userName, User user) {
         User newUser;
         try {
             newUser = user.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             newUser = user;
         }
@@ -93,28 +93,28 @@ public class UserModel {
         UserLocalRepo.getInstance().updateUser(userName, newUser);
     }
 
-    private void syncUser(User localUser, User remoteUser){
-        if(localUser == null){
+    private void syncUser(User localUser, User remoteUser) {
+        if (localUser == null) {
             UserLocalRepo.getInstance().syncRemoteUser(remoteUser);
             return;
         }
         int compareValue = localUser.getLastUpdate().compareTo(remoteUser.getLastUpdate());
-        if(compareValue>0){
+        if (compareValue > 0) {
             UserRemoteRepo.getInstance().updateUser(remoteUser.getUserName(), localUser);
-        }else if(compareValue<0){
+        } else if (compareValue < 0) {
             UserLocalRepo.getInstance().updateUser(localUser.getUserName(), remoteUser);
-        }else {
-            if(!isConsistent(localUser, remoteUser)){
+        } else {
+            if (!isConsistent(localUser, remoteUser)) {
                 UserLocalRepo.getInstance().updateUser(localUser.getUserName(), remoteUser);
             }
         }
     }
 
-    private boolean isConsistent(User localUser, User remoteUser){
+    private boolean isConsistent(User localUser, User remoteUser) {
         return true;
     }
 
-    private void initThread(){
+    private void initThread() {
         singleThread = new ThreadPoolExecutor(1, 1, 3, TimeUnit.SECONDS,
                 new ArrayBlockingQueue(5),
                 new ThreadFactory() {

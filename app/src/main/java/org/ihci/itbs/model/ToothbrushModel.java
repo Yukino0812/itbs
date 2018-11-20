@@ -21,38 +21,38 @@ public class ToothbrushModel {
     private BasePresenter presenter;
     private ThreadPoolExecutor singleThread;
 
-    public ToothbrushModel(BasePresenter presenter){
+    public ToothbrushModel(BasePresenter presenter) {
         this.presenter = presenter;
         initThread();
     }
 
-    public Toothbrush getToothbrush(int toothbrushId){
+    public Toothbrush getToothbrush(int toothbrushId) {
         Toothbrush toothbrush = ToothbrushLocalRepo.getInstance().getToothbrush(toothbrushId);
-        if(toothbrush == null){
+        if (toothbrush == null) {
             toothbrush = ToothbrushRemoteRepo.getInstance().getToothbrush(toothbrushId);
-            if(toothbrush==null){
+            if (toothbrush == null) {
                 return null;
-            }else {
+            } else {
                 ToothbrushLocalRepo.getInstance().addToothbrush(toothbrush);
             }
         }
         try {
             return toothbrush.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return toothbrush;
         }
     }
 
-    public void removeLocalToothbrush(Toothbrush toothbrush){
+    public void removeLocalToothbrush(Toothbrush toothbrush) {
         ToothbrushLocalRepo.getInstance().removeToothbrush(toothbrush);
     }
 
-    public void updateToothbrush(Toothbrush toothbrush){
+    public void updateToothbrush(Toothbrush toothbrush) {
         Toothbrush newToothbrush;
         try {
             newToothbrush = toothbrush.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             newToothbrush = toothbrush;
         }
@@ -66,7 +66,7 @@ public class ToothbrushModel {
         });
     }
 
-    private void initThread(){
+    private void initThread() {
         singleThread = new ThreadPoolExecutor(1, 1, 3, TimeUnit.SECONDS,
                 new ArrayBlockingQueue(5),
                 new ThreadFactory() {

@@ -1,8 +1,6 @@
 package org.ihci.itbs.model.repo;
 
 import org.ihci.itbs.model.pojo.Award;
-import org.ihci.itbs.model.pojo.Currency;
-import org.ihci.itbs.model.pojo.User;
 
 import java.util.List;
 

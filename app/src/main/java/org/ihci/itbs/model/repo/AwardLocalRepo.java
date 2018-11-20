@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import org.ihci.itbs.model.pojo.Award;
-import org.ihci.itbs.model.pojo.Currency;
 import org.ihci.itbs.view.ItbsApplication;
 
 import java.io.FileNotFoundException;
@@ -29,15 +28,15 @@ public class AwardLocalRepo implements AwardRepo {
     private static AwardLocalRepo INSTANCE = null;
     private ArrayList<Award> localAwardArrayList;
 
-    private AwardLocalRepo(){
+    private AwardLocalRepo() {
 
     }
 
-    public static AwardLocalRepo getInstance(){
-        if(INSTANCE==null){
+    public static AwardLocalRepo getInstance() {
+        if (INSTANCE == null) {
             read();
         }
-        if(INSTANCE==null){
+        if (INSTANCE == null) {
             INSTANCE = new AwardLocalRepo();
         }
         return INSTANCE;
@@ -45,7 +44,7 @@ public class AwardLocalRepo implements AwardRepo {
 
     @Override
     public List<Award> listAllAward() {
-        if(localAwardArrayList == null){
+        if (localAwardArrayList == null) {
             localAwardArrayList = new ArrayList<>();
         }
         return localAwardArrayList;
@@ -53,20 +52,20 @@ public class AwardLocalRepo implements AwardRepo {
 
     @Override
     public Award getAward(String awardName) {
-        if(localAwardArrayList == null){
+        if (localAwardArrayList == null) {
             localAwardArrayList = new ArrayList<>();
             return null;
         }
-        for(Award award:localAwardArrayList){
-            if (award.getAwardName().equals(awardName)){
+        for (Award award : localAwardArrayList) {
+            if (award.getAwardName().equals(awardName)) {
                 return award;
             }
         }
         return null;
     }
 
-    public boolean syncRemoteRepo(final List<Award> awards){
-        if(localAwardArrayList == null){
+    public boolean syncRemoteRepo(final List<Award> awards) {
+        if (localAwardArrayList == null) {
             realSync(awards);
             return true;
         }
@@ -84,12 +83,12 @@ public class AwardLocalRepo implements AwardRepo {
                 return o1.getAwardName().compareTo(o2.getAwardName());
             }
         });
-        if(arrayList1.size()!=arrayList2.size()){
+        if (arrayList1.size() != arrayList2.size()) {
             realSync(awards);
             return true;
         }
-        for(int index = 0;index<arrayList1.size();++index){
-            if(!arrayList1.get(index).getAwardName().equals(arrayList2.get(index).getAwardName())){
+        for (int index = 0; index < arrayList1.size(); ++index) {
+            if (!arrayList1.get(index).getAwardName().equals(arrayList2.get(index).getAwardName())) {
                 realSync(awards);
                 return true;
             }
@@ -97,7 +96,7 @@ public class AwardLocalRepo implements AwardRepo {
         return false;
     }
 
-    private void realSync(List<Award> awards){
+    private void realSync(List<Award> awards) {
         localAwardArrayList = new ArrayList<>(awards);
         save();
     }

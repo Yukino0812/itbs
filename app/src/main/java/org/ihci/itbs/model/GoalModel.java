@@ -22,42 +22,42 @@ public class GoalModel {
     private BasePresenter presenter;
     private ThreadPoolExecutor singleThread;
 
-    public GoalModel(BasePresenter presenter){
+    public GoalModel(BasePresenter presenter) {
         this.presenter = presenter;
         initThread();
     }
 
-    public List<Goal> listGoal(){
+    public List<Goal> listGoal() {
         syncRepo();
         return GoalLocalRepo.getInstance().listAllGoal();
     }
 
-    public Goal getGoal(int goalId){
+    public Goal getGoal(int goalId) {
         Goal localGoal = GoalLocalRepo.getInstance().getGoal(goalId);
-        if(localGoal==null){
+        if (localGoal == null) {
             localGoal = GoalRemoteRepo.getInstance().getGoal(goalId);
             syncRepo();
         }
         try {
             return localGoal.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
             return localGoal;
         }
     }
 
-    private void syncRepo(){
+    private void syncRepo() {
         singleThread.execute(new Runnable() {
             @Override
             public void run() {
-                if(GoalLocalRepo.getInstance().syncRemoteRepo(GoalRemoteRepo.getInstance().listAllGoal())){
+                if (GoalLocalRepo.getInstance().syncRemoteRepo(GoalRemoteRepo.getInstance().listAllGoal())) {
                     presenter.notifyUpdate();
                 }
             }
         });
     }
 
-    private void initThread(){
+    private void initThread() {
         singleThread = new ThreadPoolExecutor(1, 1, 3, TimeUnit.SECONDS,
                 new ArrayBlockingQueue(5),
                 new ThreadFactory() {

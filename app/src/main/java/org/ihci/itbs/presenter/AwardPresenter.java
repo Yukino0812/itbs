@@ -22,7 +22,7 @@ public class AwardPresenter implements AwardContract.Presenter {
     private WeakReference<AwardContract.View> viewWeakReference;
     private AwardModel model;
 
-    public AwardPresenter(AwardContract.View view){
+    public AwardPresenter(AwardContract.View view) {
         this.viewWeakReference = new WeakReference<>(view);
         model = new AwardModel(this);
     }
@@ -34,12 +34,12 @@ public class AwardPresenter implements AwardContract.Presenter {
             @Override
             public int compare(Award o1, Award o2) {
                 int typeValue = o1.getAwardType().compareTo(o2.getAwardType());
-                if(typeValue!=0){
+                if (typeValue != 0) {
                     return typeValue;
                 }
                 int currency1 = o1.getAwardValue().getSeniorCurrency() * 3 + o1.getAwardValue().getJuniorCurrency();
                 int currency2 = o2.getAwardValue().getSeniorCurrency() * 3 + o2.getAwardValue().getJuniorCurrency();
-                return currency1>currency2?1:currency1==currency2?0:-1;
+                return currency1 > currency2 ? 1 : currency1 == currency2 ? 0 : -1;
             }
         });
         return awards;

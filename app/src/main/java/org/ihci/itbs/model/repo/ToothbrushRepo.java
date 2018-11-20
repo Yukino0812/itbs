@@ -2,8 +2,6 @@ package org.ihci.itbs.model.repo;
 
 import org.ihci.itbs.model.pojo.Toothbrush;
 
-import java.util.List;
-
 /**
  * @author Yukino Yukinoshita
  */
