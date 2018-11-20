@@ -14,14 +14,10 @@ public interface UserRepo {
 
     List<User> listLocalUser();
 
-    boolean userLogin(String userName, String userPassword);
-
-    boolean userRegister(User user);
+    boolean addUser(User user);
 
     User getUser(String userName);
 
     void updateUser(String oldUserName, User newUser);
-
-    void removeUserFromLocal(String userName);
 
 }

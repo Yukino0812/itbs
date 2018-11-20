@@ -65,10 +65,10 @@ public class AwardLocalRepo implements AwardRepo {
         return null;
     }
 
-    void syncRemoteRepo(final List<Award> awards){
+    public boolean syncRemoteRepo(final List<Award> awards){
         if(localAwardArrayList == null){
             realSync(awards);
-            return;
+            return true;
         }
         ArrayList<Award> arrayList1 = new ArrayList<>(awards);
         Collections.sort(arrayList1, new Comparator<Award>() {
@@ -86,14 +86,15 @@ public class AwardLocalRepo implements AwardRepo {
         });
         if(arrayList1.size()!=arrayList2.size()){
             realSync(awards);
-            return;
+            return true;
         }
         for(int index = 0;index<arrayList1.size();++index){
             if(!arrayList1.get(index).getAwardName().equals(arrayList2.get(index).getAwardName())){
                 realSync(awards);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     private void realSync(List<Award> awards){

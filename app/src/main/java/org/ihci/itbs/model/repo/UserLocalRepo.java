@@ -1,7 +1,6 @@
 package org.ihci.itbs.model.repo;
 
 import android.content.Context;
-import android.icu.lang.UScript;
 import android.support.annotation.NonNull;
 
 import org.ihci.itbs.model.pojo.User;
@@ -12,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -50,23 +50,7 @@ public class UserLocalRepo implements UserRepo {
     }
 
     @Override
-    public boolean userLogin(String userName, String userPassword) {
-        if (localUserArrayList == null) {
-            localUserArrayList = new ArrayList<>();
-            return false;
-        }
-        for (User user : localUserArrayList) {
-            if (user.getUserName().equals(userName)) {
-                if (user.getUserPassword().equals(userPassword)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean userRegister(User user) {
+    public boolean addUser(User user) {
         if (localUserArrayList == null) {
             localUserArrayList = new ArrayList<>();
             try {
@@ -101,12 +85,7 @@ public class UserLocalRepo implements UserRepo {
         }
         for (User user : localUserArrayList) {
             if (user.getUserName().equals(userName)) {
-                try {
-                    return user.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                    return user;
-                }
+                return user;
             }
         }
         return null;
@@ -115,9 +94,13 @@ public class UserLocalRepo implements UserRepo {
     @Override
     public void updateUser(String oldUserName, User newUser) {
         if (localUserArrayList == null) {
-            userRegister(newUser);
+            addUser(newUser);
             return;
         }
+        if("".equals(oldUserName)){
+            addUser(newUser);
+        }
+
         for (User user : localUserArrayList) {
             if (user.getUserName().equals(oldUserName)) {
                 localUserArrayList.remove(user);
@@ -132,7 +115,6 @@ public class UserLocalRepo implements UserRepo {
         save();
     }
 
-    @Override
     public void removeUserFromLocal(String userName) {
         for (User user : localUserArrayList) {
             if (user.getUserName().equals(userName)) {
@@ -141,7 +123,7 @@ public class UserLocalRepo implements UserRepo {
         }
     }
 
-    void syncRemoteUser(User user){
+    public void syncRemoteUser(User user){
         if(localUserArrayList==null){
             localUserArrayList = new ArrayList<>();
         }

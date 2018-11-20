@@ -64,10 +64,10 @@ public class GoalLocalRepo implements GoalRepo {
         return null;
     }
 
-    void syncRemoteRepo(final List<Goal> goals){
+    public boolean syncRemoteRepo(final List<Goal> goals){
         if(localGoalArrayList == null){
             realSync(goals);
-            return;
+            return true;
         }
         ArrayList<Goal> arrayList1 = new ArrayList<>(goals);
         Collections.sort(arrayList1, new Comparator<Goal>() {
@@ -85,14 +85,15 @@ public class GoalLocalRepo implements GoalRepo {
         });
         if(arrayList1.size()!=arrayList2.size()){
             realSync(goals);
-            return;
+            return true;
         }
         for(int index = 0;index<arrayList1.size();++index){
             if(arrayList1.get(index).getGoalId()!=arrayList2.get(index).getGoalId()){
                 realSync(goals);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     private void realSync(List<Goal> goals){

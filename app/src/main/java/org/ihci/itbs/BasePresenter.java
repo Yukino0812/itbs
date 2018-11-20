@@ -5,4 +5,7 @@ package org.ihci.itbs;
  */
 
 public interface BasePresenter {
+
+    void notifyUpdate();
+
 }
