@@ -32,6 +32,16 @@ public class UserModel {
         return UserLocalRepo.getInstance().listLocalUser();
     }
 
+    public User getLocalUser(String userName){
+        User localUser = UserLocalRepo.getInstance().getUser(userName);
+        try {
+            return localUser.clone();
+        }catch (CloneNotSupportedException e){
+            e.printStackTrace();
+            return localUser;
+        }
+    }
+
     public User getUser(String userName){
         User localUser = UserLocalRepo.getInstance().getUser(userName);
         User remoteUser = UserRemoteRepo.getInstance().getUser(userName);
