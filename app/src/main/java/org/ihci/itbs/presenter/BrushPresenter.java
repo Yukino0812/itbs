@@ -107,7 +107,7 @@ public class BrushPresenter implements BrushContract.Presenter {
 
     @Override
     public void notifyUpdate() {
-
+        viewWeakReference.get().showBrushList(listToothbrush());
     }
 
     private void evaluateBrush() {

@@ -39,6 +39,7 @@ public class ToothbrushModel {
                 return null;
             } else {
                 ToothbrushLocalRepo.getInstance().addToothbrush(toothbrush);
+                presenter.notifyUpdate();
             }
         }
         try {
