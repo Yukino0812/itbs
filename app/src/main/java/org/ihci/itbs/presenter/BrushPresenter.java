@@ -170,7 +170,7 @@ public class BrushPresenter implements BrushContract.Presenter {
     }
 
     private void updateToothbrush() {
-        ThreadPoolExecutor singleThreadForSave = new ThreadPoolExecutor(1, 1, 3, TimeUnit.SECONDS,
+        ThreadPoolExecutor singleThread = new ThreadPoolExecutor(1, 1, 3, TimeUnit.SECONDS,
                 new ArrayBlockingQueue(5),
                 new ThreadFactory() {
                     @Override
@@ -179,7 +179,7 @@ public class BrushPresenter implements BrushContract.Presenter {
                     }
                 });
 
-        singleThreadForSave.execute(new Runnable() {
+        singleThread.execute(new Runnable() {
             @Override
             public void run() {
                 Toothbrush toothbrush;
