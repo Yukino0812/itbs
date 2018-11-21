@@ -66,7 +66,11 @@ public class BrushPresenter implements BrushContract.Presenter {
         } else {
             currentToothbrush = model.getToothbrush(toothbrushId);
         }
-        return currentToothbrush.getToothbrushId();
+        if (currentToothbrush == null) {
+            return 0;
+        } else {
+            return currentToothbrush.getToothbrushId();
+        }
     }
 
     @Override
