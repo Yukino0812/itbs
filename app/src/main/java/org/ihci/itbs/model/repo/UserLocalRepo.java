@@ -40,7 +40,6 @@ public class UserLocalRepo implements UserRepo {
         return INSTANCE;
     }
 
-    @Override
     public List<User> listLocalUser() {
         if (localUserArrayList == null) {
             localUserArrayList = new ArrayList<>();
