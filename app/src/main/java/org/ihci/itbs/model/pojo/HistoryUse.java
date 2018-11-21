@@ -12,6 +12,7 @@ public class HistoryUse implements Cloneable, Serializable {
     private Date date;
     private int duration;
     private Currency gainCurrency;
+    private Award gainAward;
 
     public HistoryUse() {
     }
@@ -38,6 +39,14 @@ public class HistoryUse implements Cloneable, Serializable {
 
     public void setGainCurrency(Currency gainCurrency) {
         this.gainCurrency = gainCurrency;
+    }
+
+    public Award getGainAward() {
+        return gainAward;
+    }
+
+    public void setGainAward(Award gainAward) {
+        this.gainAward = gainAward;
     }
 
     @Override

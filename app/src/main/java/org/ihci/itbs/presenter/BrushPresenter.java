@@ -200,6 +200,7 @@ public class BrushPresenter implements BrushContract.Presenter {
                 use.setDate(startDate);
                 use.setDuration((int) (stopDate.getTime() / 1000 - startDate.getTime() / 1000));
                 use.setGainCurrency(gainCurrency);
+                use.setGainAward(gainAward);
                 historyUses.add(use);
                 toothbrush.setHistoryUseArrayList(historyUses);
                 model.updateToothbrush(toothbrush);
