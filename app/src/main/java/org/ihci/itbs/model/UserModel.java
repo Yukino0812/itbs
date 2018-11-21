@@ -54,6 +54,10 @@ public class UserModel {
         }
     }
 
+    public boolean checkPassword(String userName, String userPassword){
+        return UserRemoteRepo.getInstance().checkPassword(userName,userPassword);
+    }
+
     public void addUser(User user) {
         User newUser;
         try {

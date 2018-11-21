@@ -23,6 +23,10 @@ public class UserRemoteRepo implements UserRepo {
         return INSTANCE;
     }
 
+    public boolean checkPassword(String userName, String userPassword){
+        return false;
+    }
+
     @Override
     public List<User> listLocalUser() {
         return null;
