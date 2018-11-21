@@ -7,6 +7,7 @@ import org.ihci.itbs.model.pojo.Toothbrush;
 import org.ihci.itbs.model.repo.ToothbrushLocalRepo;
 import org.ihci.itbs.model.repo.ToothbrushRemoteRepo;
 
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -24,6 +25,10 @@ public class ToothbrushModel {
     public ToothbrushModel(BasePresenter presenter) {
         this.presenter = presenter;
         initThread();
+    }
+
+    public List<Toothbrush> listLocalToothbrush(){
+        return ToothbrushLocalRepo.getInstance().listLocalToothbrush();
     }
 
     public Toothbrush getToothbrush(int toothbrushId) {
@@ -44,8 +49,12 @@ public class ToothbrushModel {
         }
     }
 
+    public void removeLocalToothbrush(int toothbrushId) {
+        ToothbrushLocalRepo.getInstance().removeToothbrush(toothbrushId);
+    }
+
     public void removeLocalToothbrush(Toothbrush toothbrush) {
-        ToothbrushLocalRepo.getInstance().removeToothbrush(toothbrush);
+        removeLocalToothbrush(toothbrush.getToothbrushId());
     }
 
     public void updateToothbrush(Toothbrush toothbrush) {

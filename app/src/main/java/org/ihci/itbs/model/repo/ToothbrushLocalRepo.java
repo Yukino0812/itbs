@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -39,6 +40,13 @@ public class ToothbrushLocalRepo implements ToothbrushRepo {
         return INSTANCE;
     }
 
+    public List<Toothbrush> listLocalToothbrush() {
+        if (localToothbrushArrayList == null) {
+            localToothbrushArrayList = new ArrayList<>();
+        }
+        return localToothbrushArrayList;
+    }
+
     @Override
     public Toothbrush getToothbrush(int toothbrushId) {
         if (localToothbrushArrayList == null) {
@@ -62,7 +70,7 @@ public class ToothbrushLocalRepo implements ToothbrushRepo {
         }
         for (Toothbrush toothbrush1 : localToothbrushArrayList) {
             if (toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()) {
-                toothbrush1.setHistoryUse(toothbrush.getHistoryUse());
+                toothbrush1.setHistoryUseArrayList(toothbrush.getHistoryUseArrayList());
             }
         }
         save();
@@ -76,17 +84,21 @@ public class ToothbrushLocalRepo implements ToothbrushRepo {
         save();
     }
 
-    public void removeToothbrush(Toothbrush toothbrush) {
+    public void removeToothbrush(int toothbrushId) {
         if (localToothbrushArrayList == null) {
             localToothbrushArrayList = new ArrayList<>();
             return;
         }
-        for (Toothbrush toothbrush1 : localToothbrushArrayList) {
-            if (toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()) {
-                localToothbrushArrayList.remove(toothbrush1);
+        for (Toothbrush toothbrush : localToothbrushArrayList) {
+            if (toothbrush.getToothbrushId() == toothbrushId) {
+                localToothbrushArrayList.remove(toothbrush);
             }
         }
         save();
+    }
+
+    public void removeToothbrush(Toothbrush toothbrush) {
+        removeToothbrush(toothbrush.getToothbrushId());
     }
 
     public static void save() {
