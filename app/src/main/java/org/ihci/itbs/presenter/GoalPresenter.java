@@ -11,6 +11,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,6 +60,7 @@ public class GoalPresenter implements GoalContract.Presenter {
         UserModel userModel = new UserModel(this);
         User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
         user.setGoal(goal);
+        user.getGoal().setStartDate(new Date());
         userModel.updateUser(user.getUserName(), user);
     }
 
