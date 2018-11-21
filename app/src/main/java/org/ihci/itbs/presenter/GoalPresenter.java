@@ -8,6 +8,7 @@ import org.ihci.itbs.model.pojo.Goal;
 import org.ihci.itbs.model.pojo.User;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +30,9 @@ public class GoalPresenter implements GoalContract.Presenter {
     @Override
     public List<Goal> listAllGoal() {
         List<Goal> goals = model.listGoal();
+        if(goals==null){
+            return new ArrayList<>();
+        }
         Collections.sort(goals, new Comparator<Goal>() {
             @Override
             public int compare(Goal o1, Goal o2) {
