@@ -54,8 +54,8 @@ public class UserModel {
         }
     }
 
-    public boolean checkPassword(String userName, String userPassword){
-        return UserRemoteRepo.getInstance().checkPassword(userName,userPassword);
+    public boolean checkPassword(String userName, String userPassword) {
+        return UserRemoteRepo.getInstance().checkPassword(userName, userPassword);
     }
 
     public void addUser(User user) {
@@ -78,6 +78,9 @@ public class UserModel {
     }
 
     public void removeLocalUser(User user) {
+        if(user == null){
+            return;
+        }
         removeLocalUser(user.getUserName());
     }
 
@@ -86,6 +89,9 @@ public class UserModel {
     }
 
     public void updateUser(String userName, User user) {
+        if (user == null) {
+            return;
+        }
         User newUser;
         try {
             newUser = user.clone();
