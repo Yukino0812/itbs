@@ -23,7 +23,7 @@ public class UserRemoteRepo implements UserRepo {
         return INSTANCE;
     }
 
-    public boolean checkPassword(String userName, String userPassword){
+    public boolean checkPassword(String userName, String userPassword) {
         return false;
     }
 

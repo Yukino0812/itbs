@@ -55,7 +55,7 @@ public class AwardPresenter implements AwardContract.Presenter {
         UserModel userModel = new UserModel(this);
         User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
         ArrayList<Award> awards = user.getAwardArrayList();
-        if(awards==null){
+        if (awards == null) {
             awards = new ArrayList<>();
         }
         awards.add(award);

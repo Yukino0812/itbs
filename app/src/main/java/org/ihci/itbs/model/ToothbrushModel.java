@@ -27,7 +27,7 @@ public class ToothbrushModel {
         initThread();
     }
 
-    public List<Toothbrush> listLocalToothbrush(){
+    public List<Toothbrush> listLocalToothbrush() {
         return ToothbrushLocalRepo.getInstance().listLocalToothbrush();
     }
 

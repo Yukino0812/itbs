@@ -30,7 +30,7 @@ public class GoalPresenter implements GoalContract.Presenter {
     @Override
     public List<Goal> listAllGoal() {
         List<Goal> goals = model.listGoal();
-        if(goals==null){
+        if (goals == null) {
             return new ArrayList<>();
         }
         Collections.sort(goals, new Comparator<Goal>() {

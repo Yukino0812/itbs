@@ -3,7 +3,6 @@ package org.ihci.itbs.presenter;
 import android.support.annotation.NonNull;
 
 import org.ihci.itbs.contract.BrushContract;
-import org.ihci.itbs.model.AwardModel;
 import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.ToothbrushModel;
 import org.ihci.itbs.model.UserModel;
@@ -47,9 +46,9 @@ public class BrushPresenter implements BrushContract.Presenter {
     @Override
     public List<Toothbrush> listToothbrush() {
         List<Toothbrush> toothbrushes = model.listLocalToothbrush();
-        if(toothbrushes==null){
+        if (toothbrushes == null) {
             return new ArrayList<>();
-        }else {
+        } else {
             return toothbrushes;
         }
     }
@@ -62,9 +61,9 @@ public class BrushPresenter implements BrushContract.Presenter {
     @Override
     public int connectBrush(int toothbrushId) {
         List<Toothbrush> localToothbrushList = listToothbrush();
-        if(localToothbrushList==null||toothbrushId==0){
-            currentToothbrush = model.getToothbrush(new Random().nextInt(500000)+1);
-        }else {
+        if (localToothbrushList == null || toothbrushId == 0) {
+            currentToothbrush = model.getToothbrush(new Random().nextInt(500000) + 1);
+        } else {
             currentToothbrush = model.getToothbrush(toothbrushId);
         }
         return currentToothbrush.getToothbrushId();
@@ -139,7 +138,7 @@ public class BrushPresenter implements BrushContract.Presenter {
         }
     }
 
-    private void gainAward(){
+    private void gainAward() {
         double gainAwardProbability = 0.1;
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -152,15 +151,15 @@ public class BrushPresenter implements BrushContract.Presenter {
                 || (hour > 20 && hour < 23)) {
             gainAwardProbability += 0.1;
         }
-        if(dayOfWeek==Calendar.FRIDAY||dayOfWeek==Calendar.SATURDAY){
+        if (dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY) {
             gainAwardProbability += 0.1;
         }
 
-        if(Math.random()<gainAwardProbability){
+        if (Math.random() < gainAwardProbability) {
             List<Award> awards = AwardLocalRepo.getInstance().listAllAward();
             ArrayList<Award> littleAwards = new ArrayList<>();
-            for(Award award:awards){
-                if(award.getAwardType().equals("little")){
+            for (Award award : awards) {
+                if (award.getAwardType().equals("little")) {
                     littleAwards.add(award);
                 }
             }
@@ -170,7 +169,7 @@ public class BrushPresenter implements BrushContract.Presenter {
         }
     }
 
-    private void updateToothbrush(){
+    private void updateToothbrush() {
         ThreadPoolExecutor singleThreadForSave = new ThreadPoolExecutor(1, 1, 3, TimeUnit.SECONDS,
                 new ArrayBlockingQueue(5),
                 new ThreadFactory() {
@@ -186,7 +185,7 @@ public class BrushPresenter implements BrushContract.Presenter {
                 Toothbrush toothbrush;
                 try {
                     toothbrush = currentToothbrush.clone();
-                }catch (CloneNotSupportedException e){
+                } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                     toothbrush = new Toothbrush();
                     toothbrush.setHistoryUseArrayList(currentToothbrush.getHistoryUseArrayList());
@@ -195,7 +194,7 @@ public class BrushPresenter implements BrushContract.Presenter {
                 ArrayList<HistoryUse> historyUses = new ArrayList<>(toothbrush.getHistoryUseArrayList());
                 HistoryUse use = new HistoryUse();
                 use.setDate(startDate);
-                use.setDuration((int)(stopDate.getTime()/1000 - startDate.getTime()/1000));
+                use.setDuration((int) (stopDate.getTime() / 1000 - startDate.getTime() / 1000));
                 use.setGainCurrency(gainCurrency);
                 historyUses.add(use);
                 toothbrush.setHistoryUseArrayList(historyUses);

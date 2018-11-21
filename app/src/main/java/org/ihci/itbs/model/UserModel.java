@@ -78,7 +78,7 @@ public class UserModel {
     }
 
     public void removeLocalUser(User user) {
-        if(user == null){
+        if (user == null) {
             return;
         }
         removeLocalUser(user.getUserName());
