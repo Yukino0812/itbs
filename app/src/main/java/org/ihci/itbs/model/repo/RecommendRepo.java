@@ -25,15 +25,15 @@ public class RecommendRepo {
     private static RecommendRepo INSTANCE = null;
     private ArrayList<RecommendItem> recommendItemArrayList;
 
-    private RecommendRepo(){
+    private RecommendRepo() {
 
     }
 
-    public static RecommendRepo getInstance(){
-        if(INSTANCE==null){
+    public static RecommendRepo getInstance() {
+        if (INSTANCE == null) {
             read();
         }
-        if(INSTANCE==null){
+        if (INSTANCE == null) {
             INSTANCE = new RecommendRepo();
         }
         return INSTANCE;

@@ -15,15 +15,15 @@ public class RecommendModel {
 
     private RecommendContract.Presenter presenter;
 
-    public RecommendModel(RecommendContract.Presenter presenter){
+    public RecommendModel(RecommendContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
-    public List<RecommendItem> listRecommendItem(){
+    public List<RecommendItem> listRecommendItem() {
         return new ArrayList<>(RecommendRepo.getInstance().getRecommendItemArrayList());
     }
 
-    public void updateRecommendItem(List<RecommendItem> recommendItems){
+    public void updateRecommendItem(List<RecommendItem> recommendItems) {
         RecommendRepo.getInstance().setRecommendItemArrayList(new ArrayList<>(recommendItems));
     }
 
