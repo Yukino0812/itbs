@@ -25,7 +25,7 @@ public class GlobalSettingModel implements Serializable {
 
     private String currentUserName;
     private UiTheme currentTheme;
-    private boolean recommendSetting;
+    private boolean recommend;
 
     private GlobalSettingModel() {
 
@@ -59,12 +59,12 @@ public class GlobalSettingModel implements Serializable {
         save();
     }
 
-    public boolean isRecommendSetting() {
-        return recommendSetting;
+    public boolean isRecommend() {
+        return recommend;
     }
 
-    public void setRecommendSetting(boolean recommendSetting) {
-        this.recommendSetting = recommendSetting;
+    public void setRecommend(boolean recommend) {
+        this.recommend = recommend;
         save();
     }
 
