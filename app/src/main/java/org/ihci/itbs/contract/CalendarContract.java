@@ -16,11 +16,17 @@ public interface CalendarContract {
 
     interface View extends BaseView {
 
+        void refreshCalendar();
+
     }
 
     interface Presenter extends BasePresenter {
 
         Date getCalendarStartDate();
+
+        void setCalendarStartDate(Date date);
+
+        void addCalendarStartDate(int days);
 
         List<HistoryUse> listHistoryUse();
 
