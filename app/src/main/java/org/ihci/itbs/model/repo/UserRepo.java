@@ -14,4 +14,6 @@ public interface UserRepo {
 
     void updateUser(String oldUserName, User newUser);
 
+    boolean isExistUser(String userName);
+
 }

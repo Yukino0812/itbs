@@ -100,6 +100,20 @@ public class UserRemoteRepo implements UserRepo {
         return true;
     }
 
+    @Override
+    public boolean isExistUser(String userName) {
+        if (userArrayList == null) {
+            userArrayList = new ArrayList<>();
+            return false;
+        }
+        for (User user : userArrayList) {
+            if (user.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static void save() {
         final String fileName = "user_remote_repo.txt";
 

@@ -113,6 +113,20 @@ public class UserLocalRepo implements UserRepo {
         save();
     }
 
+    @Override
+    public boolean isExistUser(String userName) {
+        if (localUserArrayList == null) {
+            localUserArrayList = new ArrayList<>();
+            return false;
+        }
+        for (User user : localUserArrayList) {
+            if (user.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void removeUserFromLocal(String userName) {
         for (User user : localUserArrayList) {
             if (user.getUserName().equals(userName)) {

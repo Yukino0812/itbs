@@ -58,6 +58,10 @@ public class UserModel {
         return UserRemoteRepo.getInstance().checkPassword(userName, userPassword);
     }
 
+    public boolean isExistUser(String userName) {
+        return UserRemoteRepo.getInstance().isExistUser(userName);
+    }
+
     public void addUser(User user) {
         User newUser;
         try {
@@ -67,12 +71,13 @@ public class UserModel {
             newUser = user;
         }
         newUser.setLastUpdate(new Date());
-        UserLocalRepo.getInstance().addUser(newUser);
         final User finalNewUser = newUser;
         singleThread.execute(new Runnable() {
             @Override
             public void run() {
-                UserRemoteRepo.getInstance().addUser(finalNewUser);
+                if (UserRemoteRepo.getInstance().addUser(finalNewUser)) {
+                    UserLocalRepo.getInstance().addUser(finalNewUser);
+                }
             }
         });
     }
