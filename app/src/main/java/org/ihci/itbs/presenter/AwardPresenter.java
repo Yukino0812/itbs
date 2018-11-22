@@ -65,6 +65,11 @@ public class AwardPresenter implements AwardContract.Presenter {
 
     @Override
     public void notifyUpdate() {
-        viewWeakReference.get().showAwardList(listAllAward());
+        viewWeakReference.get().runOnViewThread(new Runnable() {
+            @Override
+            public void run() {
+                viewWeakReference.get().showAwardList(listAllAward());
+            }
+        });
     }
 }

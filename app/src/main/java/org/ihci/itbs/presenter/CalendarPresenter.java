@@ -122,6 +122,11 @@ public class CalendarPresenter implements CalendarContract.Presenter {
 
     @Override
     public void notifyUpdate() {
-        viewWeakReference.get().refreshCalendar();
+        viewWeakReference.get().runOnViewThread(new Runnable() {
+            @Override
+            public void run() {
+                viewWeakReference.get().refreshCalendar();
+            }
+        });
     }
 }
