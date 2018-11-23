@@ -62,7 +62,7 @@ public class ItbsApplication extends Application {
 
     public static Context getContext() {
         if (contextWeakReference == null || contextWeakReference.get() == null) {
-            synchronized (org.bbt.ciss.ciss.view.ItbsApplication.class) {
+            synchronized (org.ihci.itbs.view.ItbsApplication.class) {
                 if (contextWeakReference == null || contextWeakReference.get() == null) {
                     Context context = getCurrentContext();
                     if (context != null) {

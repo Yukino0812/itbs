@@ -15,4 +15,18 @@ public class RecommendView extends Activity implements RecommendContract.View {
         runOnUiThread(action);
     }
 
+    @Override
+    public void showUpdating() {
+
+    }
+
+    @Override
+    public void showStopUpdate() {
+
+    }
+
+    @Override
+    public void refreshRecommendItem() {
+
+    }
 }
