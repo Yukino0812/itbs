@@ -25,7 +25,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            android:background="@drawable/radius_rectangle_style"
+            android:padding="7dp"/>
 
         <ImageView
             android:id="@+id/imageViewUserAvatar"
@@ -33,7 +35,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="16dp"
@@ -123,12 +125,11 @@
             app:layout_constraintTop_toTopOf="@+id/imageViewJuniorCurrency" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/imageViewLogoTop"
             android:layout_width="229.76dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:src="@drawable/logo_boy_top"
@@ -166,48 +167,6 @@
             android:id="@+id/tableRowDayOfWeekRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <TextView
-                android:layout_weight="1"
-                android:text="周一"
-                android:textAlignment="center"
-                android:textColor="@color/colorBoyPrimary" />
-
-            <TextView
-                android:layout_weight="1"
-                android:text="周二"
-                android:textAlignment="center"
-                android:textColor="@color/colorBoyPrimary" />
-
-            <TextView
-                android:layout_weight="1"
-                android:text="周三"
-                android:textAlignment="center"
-                android:textColor="@color/colorBoyPrimary" />
-
-            <TextView
-                android:layout_weight="1"
-                android:text="周四"
-                android:textAlignment="center"
-                android:textColor="@color/colorBoyPrimary" />
-
-            <TextView
-                android:layout_weight="1"
-                android:text="周五"
-                android:textAlignment="center"
-                android:textColor="@color/colorBoyPrimary" />
-
-            <TextView
-                android:layout_weight="1"
-                android:text="周六"
-                android:textAlignment="center"
-                android:textColor="@color/colorBoyPrimary" />
-
-            <TextView
-                android:layout_weight="1"
-                android:text="周日"
-                android:textAlignment="center"
-                android:textColor="@color/colorBoyPrimary" />
         </TableRow>
 
         <TableRow

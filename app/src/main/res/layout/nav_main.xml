@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayoutUserHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBoyPrimary"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+
+        <ImageView
+            android:id="@+id/imageViewNavUserAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/user_avatar_default_boy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewNavUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="User Name"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewNavUserAvatar"
+            app:layout_constraintStart_toEndOf="@+id/imageViewNavUserAvatar"
+            app:layout_constraintTop_toTopOf="@+id/imageViewNavUserAvatar" />
+
+        <ImageView
+            android:id="@+id/imageViewNavAwardNumber"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/user_award_logo"
+            app:layout_constraintStart_toStartOf="@+id/imageViewNavUserAvatar"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewNavUserAvatar" />
+
+        <TextView
+            android:id="@+id/textViewNavAwardNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:text="1"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewNavAwardNumber"
+            app:layout_constraintStart_toEndOf="@+id/imageViewNavAwardNumber"
+            app:layout_constraintTop_toTopOf="@+id/imageViewNavAwardNumber" />
+
+        <ImageView
+            android:id="@+id/imageViewNavSeniorCurrencyNumber"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/senior_currency_logo"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewNavAwardNumber"
+            app:layout_constraintStart_toEndOf="@+id/textViewNavAwardNumber"
+            app:layout_constraintTop_toTopOf="@+id/textViewNavAwardNumber" />
+
+        <TextView
+            android:id="@+id/textViewNavSeniorCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:text="2"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewNavSeniorCurrencyNumber"
+            app:layout_constraintStart_toEndOf="@+id/imageViewNavSeniorCurrencyNumber"
+            app:layout_constraintTop_toTopOf="@+id/imageViewNavSeniorCurrencyNumber" />
+
+        <ImageView
+            android:id="@+id/imageViewNavJuniorCurrency"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/junior_currency_logo"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewNavSeniorCurrency"
+            app:layout_constraintStart_toEndOf="@+id/textViewNavSeniorCurrency"
+            app:layout_constraintTop_toTopOf="@+id/textViewNavSeniorCurrency" />
+
+        <TextView
+            android:id="@+id/textViewNavJuniorCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewNavJuniorCurrency"
+            app:layout_constraintStart_toEndOf="@+id/imageViewNavJuniorCurrency"
+            app:layout_constraintTop_toTopOf="@+id/imageViewNavJuniorCurrency" />
+
+        <TextView
+            android:id="@+id/textViewNavLastDayStarLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="昨日得星"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewNavJuniorCurrency"
+            app:layout_constraintEnd_toStartOf="@+id/textViewNavTodayStarLabel"
+            app:layout_constraintStart_toEndOf="@+id/textViewNavJuniorCurrency"
+            app:layout_constraintTop_toTopOf="@+id/textViewNavJuniorCurrency" />
+
+        <TextView
+            android:id="@+id/textViewNavTodayStarLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日得星"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewNavLastDayStarLabel"
+            app:layout_constraintTop_toTopOf="@+id/textViewNavLastDayStarLabel"
+            app:layout_constraintStart_toEndOf="@id/textViewNavLastDayStarLabel" />
+
+        <TextView
+            android:id="@+id/textViewNavLastDayStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewNavUserName"
+            app:layout_constraintEnd_toEndOf="@+id/textViewNavLastDayStarLabel"
+            app:layout_constraintStart_toStartOf="@+id/textViewNavLastDayStarLabel"
+            app:layout_constraintTop_toTopOf="@+id/textViewNavUserName" />
+
+        <TextView
+            android:id="@+id/textViewNavTodayStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewNavLastDayStar"
+            app:layout_constraintEnd_toEndOf="@+id/textViewNavTodayStarLabel"
+            app:layout_constraintStart_toStartOf="@+id/textViewNavTodayStarLabel"
+            app:layout_constraintTop_toTopOf="@+id/textViewNavLastDayStar" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayoutNavRecommendSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutUserHeader">
+
+        <TextView
+            android:id="@+id/textViewNavRecommendSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="显示口腔护理知识推荐"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/switchNavRecommendSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="8dp"
+            android:checked="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutNavRecommendSetting"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+
+        <TextView
+            android:id="@+id/textViewNavUiThemeSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:text="主题设置"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonNavBoyTheme"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/circle_style"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNavUiThemeSetting"
+            app:layout_constraintStart_toStartOf="@+id/textViewNavUiThemeSetting"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            android:id="@+id/buttonNavGirlTheme"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/circle_style"
+            app:layout_constraintTop_toTopOf="@+id/buttonNavBoyTheme"
+            app:layout_constraintStart_toEndOf="@+id/buttonNavBoyTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonNavBoyTheme" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
