@@ -51,6 +51,9 @@ public class GlobalSettingModel implements Serializable {
     }
 
     public UiTheme getCurrentTheme() {
+        if (currentTheme == null) {
+            currentTheme = UiTheme.BOY;
+        }
         return currentTheme;
     }
 
