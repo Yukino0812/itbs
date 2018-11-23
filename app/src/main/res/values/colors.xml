@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="colorBoyPrimary">#ABDEF4</color>
+    <color name="colorBoyDeep">#15B4FF</color>
+    <color name="colorGirlPrimary">#F9BBDB</color>
+    <color name="colorGirlDeep">#F67EAB</color>
 </resources>
