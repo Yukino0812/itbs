@@ -90,7 +90,8 @@ public class RecommendPresenter implements RecommendContract.Presenter {
             public void run() {
                 List<RecommendItem> fullList = listRecommendItem();
                 List<RecommendItem> onTimeList = removeOutOfDateRecommendItems(fullList);
-                List<RecommendItem> resultList = addLatestRecommendItems(onTimeList);
+                List<RecommendItem> newFullList = addLatestRecommendItems(onTimeList);
+                List<RecommendItem> resultList = sortRecommendItems(newFullList);
                 model.updateRecommendItem(resultList);
                 notifyUpdate();
             }
@@ -124,6 +125,17 @@ public class RecommendPresenter implements RecommendContract.Presenter {
         // TODO
 
         return recommendItems;
+    }
+
+    private List<RecommendItem> sortRecommendItems(List<RecommendItem> recommendItems){
+        ArrayList<RecommendItem> resultList = new ArrayList<>(recommendItems);
+        Collections.sort(resultList, new Comparator<RecommendItem>() {
+            @Override
+            public int compare(RecommendItem o1, RecommendItem o2) {
+                return -o1.getUpdateDate().compareTo(o2.getUpdateDate());
+            }
+        });
+        return resultList;
     }
 
     @Override
