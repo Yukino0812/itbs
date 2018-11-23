@@ -1,6 +1,7 @@
 package org.ihci.itbs.presenter;
 
 import org.ihci.itbs.contract.UserContract;
+import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.UserModel;
 import org.ihci.itbs.model.pojo.User;
 
@@ -27,13 +28,29 @@ public class UserPresenter implements UserContract.Presenter {
     }
 
     @Override
+    public boolean cacheLogin() {
+        User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
+        boolean success = userModel.checkPassword(user.getUserName(), user.getUserPassword());
+        if (!success) {
+            userModel.removeLocalUser(user.getUserName());
+            GlobalSettingModel.getInstance().setCurrentUserName(null);
+        }
+        return success;
+    }
+
+    @Override
     public User getUser(String userName) {
         return userModel.getUser(userName);
     }
 
     @Override
     public boolean login(String userName, String userPassword) {
-        return userModel.checkPassword(userName, userPassword);
+        boolean success = userModel.checkPassword(userName, userPassword);
+        if (success) {
+            GlobalSettingModel.getInstance().setCurrentUserName(userName);
+            userModel.getUser(userName);
+        }
+        return success;
     }
 
     @Override
@@ -45,6 +62,7 @@ public class UserPresenter implements UserContract.Presenter {
         user.setUserName(userName);
         user.setUserPassword(userPassword);
         userModel.addUser(user);
+        GlobalSettingModel.getInstance().setCurrentUserName(userName);
         return true;
     }
 

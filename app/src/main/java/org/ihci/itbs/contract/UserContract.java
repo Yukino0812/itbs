@@ -20,6 +20,8 @@ public interface UserContract {
 
         List<User> listLocalUser();
 
+        boolean cacheLogin();
+
         User getUser(String userName);
 
         boolean login(String userName, String userPassword);
