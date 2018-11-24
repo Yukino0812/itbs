@@ -29,7 +29,11 @@ public class UserPresenter implements UserContract.Presenter {
 
     @Override
     public boolean cacheLogin() {
-        User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
+        String currentUserName = GlobalSettingModel.getInstance().getCurrentUserName();
+        if(currentUserName == null){
+            return false;
+        }
+        User user = userModel.getLocalUser(currentUserName);
         boolean success = userModel.checkPassword(user.getUserName(), user.getUserPassword());
         if (!success) {
             userModel.removeLocalUser(user.getUserName());
