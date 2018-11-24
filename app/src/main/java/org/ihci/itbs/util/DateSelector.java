@@ -29,7 +29,7 @@ public class DateSelector {
     }
 
     public Date getCurrentDate() {
-        return currentDate;
+        return (Date) currentDate.clone();
     }
 
     public void setCurrentDate(Date currentDate) {
@@ -80,6 +80,22 @@ public class DateSelector {
     public static Date getFirstDayCurrentWeek() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_WEEK, 2);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * Get the first day in this week
+     *
+     * @param date specified date
+     * @return first day with time 0:00:00
+     */
+    public static Date getFirstDayCurrentWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         calendar.set(Calendar.DAY_OF_WEEK, 2);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -169,6 +185,11 @@ public class DateSelector {
     public static Date stringToDate(String date) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         return simpleDateFormat.parse(date);
+    }
+
+    public static String dateToStringWithoutTime(Date date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
+        return simpleDateFormat.format(date);
     }
 
     @Override
