@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @author Yukino Yukinoshita
  */
 
-public class AwardLocalRepo implements AwardRepo {
+public class AwardLocalRepo implements AwardRepo, Serializable {
 
     private static AwardLocalRepo INSTANCE = null;
     private ArrayList<Award> localAwardArrayList;

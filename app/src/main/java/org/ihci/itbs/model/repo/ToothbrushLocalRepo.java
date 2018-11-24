@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @author Yukino Yukinoshita
  */
 
-public class ToothbrushLocalRepo implements ToothbrushRepo {
+public class ToothbrushLocalRepo implements ToothbrushRepo, Serializable {
 
     private static ToothbrushLocalRepo INSTANCE = null;
     private ArrayList<Toothbrush> localToothbrushArrayList;

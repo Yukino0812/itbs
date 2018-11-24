@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @author Yukino Yukinoshita
  */
 
-public class UserLocalRepo implements UserRepo {
+public class UserLocalRepo implements UserRepo, Serializable {
 
     private static UserLocalRepo INSTANCE = null;
     private ArrayList<User> localUserArrayList = null;
@@ -138,6 +139,9 @@ public class UserLocalRepo implements UserRepo {
     public void syncRemoteUser(User user) {
         if (localUserArrayList == null) {
             localUserArrayList = new ArrayList<>();
+        }
+        if(user==null){
+            return;
         }
         for (User user1 : localUserArrayList) {
             if (user1.getUserName().equals(user.getUserName())) {
