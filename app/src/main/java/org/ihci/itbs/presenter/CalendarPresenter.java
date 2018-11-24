@@ -6,6 +6,7 @@ import org.ihci.itbs.model.UserModel;
 import org.ihci.itbs.model.pojo.Award;
 import org.ihci.itbs.model.pojo.HistoryUse;
 import org.ihci.itbs.model.pojo.Toothbrush;
+import org.ihci.itbs.model.pojo.User;
 import org.ihci.itbs.util.DateSelector;
 
 import java.lang.ref.WeakReference;
@@ -23,35 +24,37 @@ public class CalendarPresenter implements CalendarContract.Presenter {
 
     private WeakReference<CalendarContract.View> viewWeakReference;
     private UserModel userModel;
-    private Date calendarStartDate;
+    private Date calendarMiddleDate;
 
     public CalendarPresenter(CalendarContract.View view) {
         this.viewWeakReference = new WeakReference<>(view);
         this.userModel = new UserModel(this);
-        calendarStartDate = new Date();
+        calendarMiddleDate = new Date();
     }
 
     @Override
-    public Date getCalendarStartDate() {
-        return calendarStartDate;
+    public Date getCalendarMiddleDate() {
+        return calendarMiddleDate;
     }
 
     @Override
-    public void setCalendarStartDate(Date date) {
-        calendarStartDate = date;
+    public void setCalendarMiddleDate(Date date) {
+        calendarMiddleDate = date;
     }
 
     @Override
     public void addCalendarStartDate(int days) {
-        DateSelector dateSelector = new DateSelector(calendarStartDate);
-        setCalendarStartDate(dateSelector.getDaysAfter(days));
+        DateSelector dateSelector = new DateSelector(calendarMiddleDate);
+        setCalendarMiddleDate(dateSelector.getDaysAfter(days));
     }
 
     @Override
     public List<HistoryUse> listHistoryUse() {
-        ArrayList<Toothbrush> toothbrushes = userModel.getUser(
-                GlobalSettingModel.getInstance().getCurrentUserName())
-                .getToothbrushArrayList();
+        User user = userModel.getUser(GlobalSettingModel.getInstance().getCurrentUserName());
+        if(user==null){
+            return null;
+        }
+        ArrayList<Toothbrush> toothbrushes = user.getToothbrushArrayList();
         if (toothbrushes == null) {
             return null;
         }
@@ -118,6 +121,27 @@ public class CalendarPresenter implements CalendarContract.Presenter {
             awards.add(use.getGainAward());
         }
         return awards;
+    }
+
+    @Override
+    public Date getCalendarStartDate() {
+        DateSelector dateSelector = new DateSelector();
+        dateSelector.setCurrentDate(DateSelector.getFirstDayCurrentWeek(calendarMiddleDate));
+        return DateSelector.getStartTimeThisDay(dateSelector.getDaysAfter(-7));
+    }
+
+    @Override
+    public Date getCalendarEndDate() {
+        DateSelector dateSelector = new DateSelector();
+        dateSelector.setCurrentDate(DateSelector.getFirstDayCurrentWeek(calendarMiddleDate));
+        return DateSelector.getStartTimeThisDay(dateSelector.getDaysAfter(13));
+    }
+
+    @Override
+    public String getCalendarDurationDescription() {
+        String startString = DateSelector.dateToStringWithoutTime(getCalendarStartDate());
+        String endString = DateSelector.dateToStringWithoutTime(getCalendarEndDate());
+        return startString + "-" + endString;
     }
 
     @Override

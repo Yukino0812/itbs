@@ -22,9 +22,9 @@ public interface CalendarContract {
 
     interface Presenter extends BasePresenter {
 
-        Date getCalendarStartDate();
+        Date getCalendarMiddleDate();
 
-        void setCalendarStartDate(Date date);
+        void setCalendarMiddleDate(Date date);
 
         void addCalendarStartDate(int days);
 
@@ -37,6 +37,12 @@ public interface CalendarContract {
         int getCurrency(Date date);
 
         List<Award> listAward(Date date);
+
+        Date getCalendarStartDate();
+
+        Date getCalendarEndDate();
+
+        String getCalendarDurationDescription();
 
     }
 
