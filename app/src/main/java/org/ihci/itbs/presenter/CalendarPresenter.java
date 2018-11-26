@@ -51,7 +51,7 @@ public class CalendarPresenter implements CalendarContract.Presenter {
     @Override
     public List<HistoryUse> listHistoryUse() {
         User user = userModel.getUser(GlobalSettingModel.getInstance().getCurrentUserName());
-        if(user==null){
+        if (user == null) {
             return null;
         }
         ArrayList<Toothbrush> toothbrushes = user.getToothbrushArrayList();
@@ -141,7 +141,7 @@ public class CalendarPresenter implements CalendarContract.Presenter {
     public String getCalendarDurationDescription() {
         String startString = DateSelector.dateToStringWithoutTime(getCalendarStartDate());
         String endString = DateSelector.dateToStringWithoutTime(getCalendarEndDate());
-        return startString + "-" + endString;
+        return startString + " - " + endString;
     }
 
     @Override

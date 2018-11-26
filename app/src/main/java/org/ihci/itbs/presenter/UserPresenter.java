@@ -30,7 +30,7 @@ public class UserPresenter implements UserContract.Presenter {
     @Override
     public boolean cacheLogin() {
         String currentUserName = GlobalSettingModel.getInstance().getCurrentUserName();
-        if(currentUserName == null){
+        if (currentUserName == null) {
             return false;
         }
         User user = userModel.getLocalUser(currentUserName);

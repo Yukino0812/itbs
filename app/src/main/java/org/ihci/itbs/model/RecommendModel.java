@@ -21,14 +21,14 @@ public class RecommendModel {
 
     public List<RecommendItem> listRecommendItem() {
         List<RecommendItem> recommendItems = RecommendRepo.getInstance().getRecommendItemArrayList();
-        if(recommendItems==null){
+        if (recommendItems == null) {
             return null;
         }
         return new ArrayList<>(recommendItems);
     }
 
     public void updateRecommendItem(List<RecommendItem> recommendItems) {
-        if(recommendItems==null){
+        if (recommendItems == null) {
             return;
         }
         RecommendRepo.getInstance().setRecommendItemArrayList(new ArrayList<>(recommendItems));

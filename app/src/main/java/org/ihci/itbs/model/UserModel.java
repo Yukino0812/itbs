@@ -45,7 +45,7 @@ public class UserModel {
     public User getUser(String userName) {
         User localUser = UserLocalRepo.getInstance().getUser(userName);
         User remoteUser = UserRemoteRepo.getInstance().getUser(userName);
-        if(remoteUser==null){
+        if (remoteUser == null) {
             return null;
         }
         syncUser(localUser, remoteUser);
@@ -116,7 +116,7 @@ public class UserModel {
             UserLocalRepo.getInstance().syncRemoteUser(remoteUser);
             return;
         }
-        if(remoteUser==null){
+        if (remoteUser == null) {
             return;
         }
         int compareValue = localUser.getLastUpdate().compareTo(remoteUser.getLastUpdate());

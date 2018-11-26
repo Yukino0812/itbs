@@ -140,7 +140,7 @@ public class UserLocalRepo implements UserRepo, Serializable {
         if (localUserArrayList == null) {
             localUserArrayList = new ArrayList<>();
         }
-        if(user==null){
+        if (user == null) {
             return;
         }
         for (User user1 : localUserArrayList) {

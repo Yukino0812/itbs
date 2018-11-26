@@ -34,8 +34,8 @@ public class RecommendPresenter implements RecommendContract.Presenter {
 
     @Override
     public List<RecommendItem> listRecommendItem() {
-        List<RecommendItem> items =model.listRecommendItem();
-        if(items==null){
+        List<RecommendItem> items = model.listRecommendItem();
+        if (items == null) {
             return null;
         }
         ArrayList<RecommendItem> recommendItemArrayList = new ArrayList<>(items);
@@ -131,8 +131,8 @@ public class RecommendPresenter implements RecommendContract.Presenter {
         return recommendItems;
     }
 
-    private List<RecommendItem> sortRecommendItems(List<RecommendItem> recommendItems){
-        if(recommendItems==null){
+    private List<RecommendItem> sortRecommendItems(List<RecommendItem> recommendItems) {
+        if (recommendItems == null) {
             return null;
         }
         ArrayList<RecommendItem> resultList = new ArrayList<>(recommendItems);
