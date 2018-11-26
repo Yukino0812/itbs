@@ -1,6 +1,6 @@
 package org.ihci.itbs.view;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,7 +34,9 @@ import org.ihci.itbs.presenter.CalendarPresenter;
 import org.ihci.itbs.presenter.RecommendPresenter;
 import org.ihci.itbs.presenter.UserPresenter;
 import org.ihci.itbs.util.DateSelector;
+import org.ihci.itbs.util.StyleSelector;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -47,11 +50,110 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private CalendarContract.Presenter calendarPresenter;
     private UserContract.Presenter userPresenter;
 
+    private float lastPressDownX;
+    private float lastPressDownY;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textViewUserName = findViewById(R.id.textViewUserName);
+        if (GlobalSettingModel.getInstance().getCurrentUserName() != null && !"".equals(GlobalSettingModel.getInstance().getCurrentUserName())) {
+            if (!GlobalSettingModel.getInstance().getCurrentUserName().equals(textViewUserName.getText().toString())) {
+                initView();
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout_overview);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int x = (int) ev.getX();
+        int y = (int) ev.getY();
+        View root = getWindow().getDecorView();
+        View tableLayout = findTableLayout(root, x, y);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                lastPressDownX = ev.getX();
+                lastPressDownY = ev.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout_overview);
+                if (ev.getX() > lastPressDownX + 100) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                } else if (ev.getX() < lastPressDownX - 100) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                if (ev.getY() > lastPressDownY + 100) {
+                    findViewById(R.id.buttonTimeDescriptionToLeft).performClick();
+                } else if (ev.getY() < lastPressDownY - 100) {
+                    findViewById(R.id.buttonTimeDescriptionToRight).performClick();
+                }
+            default:
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private View findTableLayout(View view, int x, int y) {
+        View targetView = null;
+        if (view instanceof ViewGroup) {
+
+            ViewGroup v = (ViewGroup) view;
+            for (int i = 0; i < v.getChildCount(); i++) {
+                targetView = findTableLayout(v.getChildAt(i), x, y);
+                if (targetView != null) {
+                    break;
+                }
+            }
+        } else {
+            targetView = getTouchTarget(view, x, y);
+        }
+        if (targetView != null && view instanceof TableLayout) {
+            return view;
+        } else {
+            return targetView;
+        }
+    }
+
+    private View getTouchTarget(View view, int x, int y) {
+        View targetView = null;
+
+        ArrayList<View> TouchableViews = view.getTouchables();
+        for (View child : TouchableViews) {
+            if (isTouchPointInView(child, x, y)) {
+                targetView = child;
+                break;
+            }
+        }
+        return targetView;
+    }
+
+    private boolean isTouchPointInView(View view, int x, int y) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getWidth();
+        int bottom = top + view.getHeight();
+        return view.isClickable() && y >= top && y <= bottom && x >= left
+                && x <= right;
     }
 
     @Override
@@ -67,16 +169,6 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     @Override
     public void refreshRecommendItem() {
         // do nothing
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout_overview);
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -142,26 +234,17 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
 
     private void initUserAvatar(User user) {
         ImageView userAvatar = findViewById(R.id.imageViewUserAvatar);
-        if (user.getAvatar() != null) {
+        if (user != null && user.getAvatar() != null) {
             userAvatar.setImageBitmap(user.getAvatar());
         } else {
-            switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-                case BOY:
-                    userAvatar.setImageDrawable(getDrawable(R.drawable.user_avatar_default_boy));
-                    break;
-                case GIRL:
-                    userAvatar.setImageDrawable(getDrawable(R.drawable.user_avatar_default_girl));
-                    break;
-                default:
-                    userAvatar.setImageDrawable(getDrawable(R.drawable.user_avatar_default_boy));
-            }
+            userAvatar.setImageDrawable(StyleSelector.getDefaultAvatar());
         }
 
         // Set Avatar Onclick Listener
-        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout_overview);
         userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout_overview);
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
@@ -172,7 +255,10 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     }
 
     private void initUserName(User user) {
-        String userName = user.getUserName();
+        String userName = "";
+        if (user != null) {
+            userName = user.getUserName();
+        }
         if (userName == null || "".equals(userName)) {
             userName = "User Name";
         }
@@ -183,16 +269,19 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         textViewUserName.setText(userName);
 
         // Set Color
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                textViewUserName.setTextColor(Color.BLACK);
-                break;
-            case GIRL:
-                textViewUserName.setTextColor(Color.WHITE);
-                break;
-            default:
-                textViewUserName.setTextColor(Color.BLACK);
-        }
+        textViewUserName.setTextColor(StyleSelector.getTextColor());
+
+        textViewUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout_overview);
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
     }
 
     private void initUserAwardAndCurrency(User user) {
@@ -225,37 +314,14 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         textViewJunior.setText(String.valueOf(juniorCurrency));
 
         // Set Color
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                textViewAward.setTextColor(Color.BLACK);
-                textViewSenior.setTextColor(Color.BLACK);
-                textViewJunior.setTextColor(Color.BLACK);
-                break;
-            case GIRL:
-                textViewAward.setTextColor(Color.WHITE);
-                textViewSenior.setTextColor(Color.WHITE);
-                textViewJunior.setTextColor(Color.WHITE);
-                break;
-            default:
-                textViewAward.setTextColor(Color.BLACK);
-                textViewSenior.setTextColor(Color.BLACK);
-                textViewJunior.setTextColor(Color.BLACK);
-        }
+        textViewAward.setTextColor(StyleSelector.getTextColor());
+        textViewSenior.setTextColor(StyleSelector.getTextColor());
+        textViewJunior.setTextColor(StyleSelector.getTextColor());
     }
 
     private void initUserBackground() {
         ConstraintLayout constraintLayout = findViewById(R.id.constraintLayoutTop);
-
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyPrimary));
-                break;
-            case GIRL:
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorGirlPrimary));
-                break;
-            default:
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyPrimary));
-        }
+        constraintLayout.setBackgroundColor(StyleSelector.getColorPrimary());
     }
 
     private void initMouth() {
@@ -272,16 +338,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         topMouth.setOnClickListener(mouthOnClickListener);
         bottomMouth.setOnClickListener(mouthOnClickListener);
 
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                topMouth.setImageDrawable(getDrawable(R.drawable.logo_boy_top));
-                break;
-            case GIRL:
-                topMouth.setImageDrawable(getDrawable(R.drawable.logo_girl_top));
-                break;
-            default:
-                topMouth.setImageDrawable(getDrawable(R.drawable.logo_boy_top));
-        }
+        topMouth.setImageDrawable(StyleSelector.getTopMouth());
     }
 
     private void initCalendar() {
@@ -289,7 +346,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         tableLayout.removeAllViews();
         initCalendarDayOfWeekText(tableLayout);
         initCalendarContent(tableLayout);
-        initCalendarDateHint(tableLayout);
+        initCalendarDateHint();
     }
 
     private void initCalendarDayOfWeekText(TableLayout tableLayout) {
@@ -299,16 +356,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             TextView textView = new TextView(this);
             textView.setText(dayOfWeek);
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-                case BOY:
-                    textView.setTextColor(getResources().getColor(R.color.colorBoyPrimary));
-                    break;
-                case GIRL:
-                    textView.setTextColor(getResources().getColor(R.color.colorGirlPrimary));
-                    break;
-                default:
-                    textView.setTextColor(getResources().getColor(R.color.colorBoyPrimary));
-            }
+            textView.setTextColor(StyleSelector.getColorPrimary());
             textView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
             tableRow.addView(textView);
         }
@@ -316,27 +364,64 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     }
 
     private void initCalendarContent(TableLayout tableLayout) {
+        Date date = calendarPresenter.getCalendarStartDate();
+        for (int week = 0; week < 3; ++week) {
+            TableRow tableRow = new TableRow(this);
+            for (int dayOfWeek = 0; dayOfWeek < 7; ++dayOfWeek) {
+                boolean isPass = date.compareTo(DateSelector.getStartTimeThisDay(new Date())) < 0;
+                Button button = new Button(this);
+                button.setText(String.valueOf(DateSelector.getDayOfMonth(date)));
 
+                GradientDrawable gradientDrawable = new GradientDrawable();
+                gradientDrawable.setCornerRadius(20f);
+                gradientDrawable.setGradientType(GradientDrawable.RECTANGLE);
+                gradientDrawable.setStroke(4, getResources().getColor(R.color.backgroundWhite));
+
+                if (isPass) {
+                    gradientDrawable.setColor(StyleSelector.getColorLight());
+                } else {
+                    gradientDrawable.setColor(StyleSelector.getColorPrimary());
+                }
+                button.setTextColor(StyleSelector.getTextColor());
+
+                button.setBackground(gradientDrawable);
+                button.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 200, 1f));
+                tableRow.addView(button);
+
+                date = DateSelector.getDaysAfter(date, 1);
+            }
+            tableRow.setPadding(2, 2, 2, 2);
+            tableLayout.addView(tableRow);
+        }
     }
 
-    private void initCalendarDateHint(TableLayout tableLayout) {
+    private void initCalendarDateHint() {
         TextView textViewTime = findViewById(R.id.textViewTimeDescription);
         textViewTime.setText(calendarPresenter.getCalendarDurationDescription());
 
         ConstraintLayout constraintLayout = findViewById(R.id.constraintLayoutTimeDescription);
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                textViewTime.setTextColor(Color.BLACK);
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyDeep));
-                break;
-            case GIRL:
-                textViewTime.setTextColor(Color.WHITE);
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorGirlDeep));
-                break;
-            default:
-                textViewTime.setTextColor(Color.BLACK);
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyDeep));
-        }
+
+        textViewTime.setTextColor(StyleSelector.getTextColor());
+        constraintLayout.setBackgroundColor(StyleSelector.getColorDeep());
+
+        Button buttonLeft = findViewById(R.id.buttonTimeDescriptionToLeft);
+        Button buttonRight = findViewById(R.id.buttonTimeDescriptionToRight);
+
+        buttonLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendarPresenter.addCalendarStartDate(-7);
+                initCalendar();
+            }
+        });
+
+        buttonRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendarPresenter.addCalendarStartDate(7);
+                initCalendar();
+            }
+        });
     }
 
     private void initGoal() {
@@ -367,19 +452,8 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         ConstraintLayout constraintLayout = findViewById(R.id.constraintLayoutGoal);
         ImageView imageViewGoal = findViewById(R.id.imageViewGoal);
 
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                imageViewGoal.setImageDrawable(getDrawable(R.drawable.goal_boy));
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyPrimary));
-                break;
-            case GIRL:
-                imageViewGoal.setImageDrawable(getDrawable(R.drawable.goal_girl));
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorGirlPrimary));
-                break;
-            default:
-                imageViewGoal.setImageDrawable(getDrawable(R.drawable.goal_boy));
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyPrimary));
-        }
+        imageViewGoal.setImageDrawable(StyleSelector.getGoal());
+        constraintLayout.setBackgroundColor(StyleSelector.getColorPrimary());
     }
 
     private void initNavUser() {
@@ -401,27 +475,28 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         View header = navigationView.getHeaderView(0);
 
         ImageView userAvatar = header.findViewById(R.id.imageViewNavUserAvatar);
-        if (user.getAvatar() != null) {
+        if (user != null && user.getAvatar() != null) {
             userAvatar.setImageBitmap(user.getAvatar());
         } else {
-            switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-                case BOY:
-                    userAvatar.setImageDrawable(getDrawable(R.drawable.user_avatar_default_boy));
-                    break;
-                case GIRL:
-                    userAvatar.setImageDrawable(getDrawable(R.drawable.user_avatar_default_girl));
-                    break;
-                default:
-                    userAvatar.setImageDrawable(getDrawable(R.drawable.user_avatar_default_boy));
-            }
+            userAvatar.setImageDrawable(StyleSelector.getDefaultAvatar());
         }
+
+        userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toUserView();
+            }
+        });
     }
 
     private void initNavUserName(User user) {
         NavigationView navigationView = findViewById(R.id.navigationViewMain);
         View header = navigationView.getHeaderView(0);
 
-        String userName = user.getUserName();
+        String userName = "";
+        if (user != null) {
+            userName = user.getUserName();
+        }
         if (userName == null || "".equals(userName)) {
             userName = "User Name";
         }
@@ -432,16 +507,14 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         textViewUserName.setText(userName);
 
         // Set Color
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                textViewUserName.setTextColor(Color.BLACK);
-                break;
-            case GIRL:
-                textViewUserName.setTextColor(Color.WHITE);
-                break;
-            default:
-                textViewUserName.setTextColor(Color.BLACK);
-        }
+        textViewUserName.setTextColor(StyleSelector.getTextColor());
+
+        textViewUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toUserView();
+            }
+        });
     }
 
     private void initNavUserAwardAndCurrency(User user) {
@@ -477,22 +550,9 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         textViewJunior.setText(String.valueOf(juniorCurrency));
 
         // Set Color
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                textViewAward.setTextColor(Color.BLACK);
-                textViewSenior.setTextColor(Color.BLACK);
-                textViewJunior.setTextColor(Color.BLACK);
-                break;
-            case GIRL:
-                textViewAward.setTextColor(Color.WHITE);
-                textViewSenior.setTextColor(Color.WHITE);
-                textViewJunior.setTextColor(Color.WHITE);
-                break;
-            default:
-                textViewAward.setTextColor(Color.BLACK);
-                textViewSenior.setTextColor(Color.BLACK);
-                textViewJunior.setTextColor(Color.BLACK);
-        }
+        textViewAward.setTextColor(StyleSelector.getTextColor());
+        textViewSenior.setTextColor(StyleSelector.getTextColor());
+        textViewJunior.setTextColor(StyleSelector.getTextColor());
     }
 
     private void initNavUserGetStar(User user) {
@@ -507,25 +567,10 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         TextView textViewLabelLastDayStar = header.findViewById(R.id.textViewNavLastDayStarLabel);
         TextView textViewLabelTodayStar = header.findViewById(R.id.textViewNavTodayStarLabel);
 
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                textViewNumOfLastDayStar.setTextColor(Color.BLACK);
-                textViewNumOfTodayStar.setTextColor(Color.BLACK);
-                textViewLabelLastDayStar.setTextColor(Color.BLACK);
-                textViewLabelTodayStar.setTextColor(Color.BLACK);
-                break;
-            case GIRL:
-                textViewNumOfLastDayStar.setTextColor(Color.WHITE);
-                textViewNumOfTodayStar.setTextColor(Color.WHITE);
-                textViewLabelLastDayStar.setTextColor(Color.WHITE);
-                textViewLabelTodayStar.setTextColor(Color.WHITE);
-                break;
-            default:
-                textViewNumOfLastDayStar.setTextColor(Color.BLACK);
-                textViewNumOfTodayStar.setTextColor(Color.BLACK);
-                textViewLabelLastDayStar.setTextColor(Color.BLACK);
-                textViewLabelTodayStar.setTextColor(Color.BLACK);
-        }
+        textViewNumOfLastDayStar.setTextColor(StyleSelector.getTextColor());
+        textViewNumOfTodayStar.setTextColor(StyleSelector.getTextColor());
+        textViewLabelLastDayStar.setTextColor(StyleSelector.getTextColor());
+        textViewLabelTodayStar.setTextColor(StyleSelector.getTextColor());
 
         List<HistoryUse> lastDayUse = calendarPresenter.listHistoryUse(new DateSelector().getDaysAfter(-1));
         List<HistoryUse> todayUse = calendarPresenter.listHistoryUse(new Date());
@@ -564,16 +609,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         View header = navigationView.getHeaderView(0);
         ConstraintLayout constraintLayout = header.findViewById(R.id.constraintLayoutUserHeader);
 
-        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
-            case BOY:
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyPrimary));
-                break;
-            case GIRL:
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorGirlPrimary));
-                break;
-            default:
-                constraintLayout.setBackgroundColor(getResources().getColor(R.color.colorBoyPrimary));
-        }
+        constraintLayout.setBackgroundColor(StyleSelector.getColorPrimary());
     }
 
     private void initNavRecommendSetting() {
@@ -587,6 +623,14 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             public void onClick(View v) {
                 GlobalSettingModel.getInstance().setRecommend(!GlobalSettingModel.getInstance().isRecommend());
                 recommendSwitch.setChecked(GlobalSettingModel.getInstance().isRecommend());
+            }
+        });
+
+        ConstraintLayout constraintLayoutRecommendEntry = header.findViewById(R.id.constraintLayoutNavGoToRecommendSetting);
+        constraintLayoutRecommendEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO go to recommend
             }
         });
     }
@@ -622,6 +666,12 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
                 initNavigationView();
             }
         });
+    }
+
+    private void toUserView() {
+        Intent intent = new Intent();
+        intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.UserView.class);
+        startActivity(intent);
     }
 
 }
