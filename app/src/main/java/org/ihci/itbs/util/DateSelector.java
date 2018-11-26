@@ -52,6 +52,22 @@ public class DateSelector {
         return calendar.getTime();
     }
 
+    public static Date getDaysAfter(Date now, int daysAfter) {
+        if (now == null) {
+            now = new Date();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.DATE, daysAfter);
+        return calendar.getTime();
+    }
+
+    public static int getDayOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
     public static Date getStartTimeThisDay(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -187,7 +203,7 @@ public class DateSelector {
         return simpleDateFormat.parse(date);
     }
 
-    public static String dateToStringWithoutTime(Date date){
+    public static String dateToStringWithoutTime(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
         return simpleDateFormat.format(date);
     }
