@@ -1,4 +1,4 @@
-package org.ihci.itbs.view.view_adapter;
+package org.ihci.itbs.view.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +36,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_user_view, parent, false);
         return new ViewHolder(view);
     }

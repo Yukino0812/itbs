@@ -21,7 +21,7 @@ import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.pojo.User;
 import org.ihci.itbs.presenter.UserPresenter;
 import org.ihci.itbs.util.StyleSelector;
-import org.ihci.itbs.view.view_adapter.UserAdapter;
+import org.ihci.itbs.view.adapter.UserAdapter;
 
 import java.util.List;
 
