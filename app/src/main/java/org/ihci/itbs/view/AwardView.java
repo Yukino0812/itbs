@@ -50,7 +50,7 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
 
     @Override
     public void showAwardList() {
-        initAward();
+
     }
 
     public void onClickBack(View view) {

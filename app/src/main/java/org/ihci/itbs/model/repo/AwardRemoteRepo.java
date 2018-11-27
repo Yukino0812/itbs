@@ -41,11 +41,10 @@ public class AwardRemoteRepo implements AwardRepo {
         awards.add(getNewAward("windmill", "medium", 1, 1));
         awards.add(getNewAward("transformer", "medium", 2, 2));
         awards.add(getNewAward("hello_kitty", "medium", 2, 0));
-        awards.add(getNewAward("yellow_duck", "big", 10, 0));
+        awards.add(getNewAward("yellow_duck", "big", 9999, 0));
         awards.add(getNewAward("bear", "big", 3, 0));
         awards.add(getNewAward("superman", "big", 4, 0));
         awards.add(getNewAward("doraemon", "big", 3, 2));
-
 
         awardList = awards;
 

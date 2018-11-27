@@ -12,8 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -65,36 +63,9 @@ public class AwardLocalRepo implements AwardRepo, Serializable {
         return null;
     }
 
-    public boolean syncRemoteRepo(final List<Award> awards) {
-        if (localAwardArrayList == null) {
-            realSync(awards);
-            return true;
-        }
-        ArrayList<Award> arrayList1 = new ArrayList<>(awards);
-        Collections.sort(arrayList1, new Comparator<Award>() {
-            @Override
-            public int compare(Award o1, Award o2) {
-                return o1.getAwardName().compareTo(o2.getAwardName());
-            }
-        });
-        ArrayList<Award> arrayList2 = new ArrayList<>(localAwardArrayList);
-        Collections.sort(arrayList2, new Comparator<Award>() {
-            @Override
-            public int compare(Award o1, Award o2) {
-                return o1.getAwardName().compareTo(o2.getAwardName());
-            }
-        });
-        if (arrayList1.size() != arrayList2.size()) {
-            realSync(awards);
-            return true;
-        }
-        for (int index = 0; index < arrayList1.size(); ++index) {
-            if (!arrayList1.get(index).getAwardName().equals(arrayList2.get(index).getAwardName())) {
-                realSync(awards);
-                return true;
-            }
-        }
-        return false;
+    public boolean syncRemoteRepo(List<Award> awards) {
+        realSync(awards);
+        return true;
     }
 
     private void realSync(List<Award> awards) {
