@@ -110,7 +110,7 @@ public class BrushPresenter implements BrushContract.Presenter {
         viewWeakReference.get().runOnViewThread(new Runnable() {
             @Override
             public void run() {
-                viewWeakReference.get().showBrushList(listToothbrush());
+                viewWeakReference.get().showBrushList();
             }
         });
     }

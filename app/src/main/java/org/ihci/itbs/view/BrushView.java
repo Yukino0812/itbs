@@ -19,7 +19,7 @@ public class BrushView extends Activity implements BrushContract.View {
     }
 
     @Override
-    public void showBrushList(List<Toothbrush> toothbrushes) {
+    public void showBrushList() {
 
     }
 }
