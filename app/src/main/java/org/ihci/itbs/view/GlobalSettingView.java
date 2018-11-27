@@ -8,6 +8,7 @@ import org.ihci.itbs.contract.GlobalSettingContract;
  * @author Yukino Yukinoshita
  */
 
+@Deprecated
 public class GlobalSettingView extends Activity implements GlobalSettingContract.View {
 
     @Override
