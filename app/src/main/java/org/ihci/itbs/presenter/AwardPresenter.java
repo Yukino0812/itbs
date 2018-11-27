@@ -5,6 +5,7 @@ import org.ihci.itbs.model.AwardModel;
 import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.UserModel;
 import org.ihci.itbs.model.pojo.Award;
+import org.ihci.itbs.model.pojo.Currency;
 import org.ihci.itbs.model.pojo.User;
 
 import java.lang.ref.WeakReference;
@@ -39,7 +40,7 @@ public class AwardPresenter implements AwardContract.Presenter {
                 }
                 int currency1 = o1.getAwardValue().getSeniorCurrency() * 3 + o1.getAwardValue().getJuniorCurrency();
                 int currency2 = o2.getAwardValue().getSeniorCurrency() * 3 + o2.getAwardValue().getJuniorCurrency();
-                return currency1 > currency2 ? 1 : currency1 == currency2 ? 0 : -1;
+                return -(currency1 > currency2 ? 1 : currency1 == currency2 ? 0 : -1);
             }
         });
         return awards;
@@ -64,11 +65,52 @@ public class AwardPresenter implements AwardContract.Presenter {
     }
 
     @Override
+    public boolean buyAward(User user, String awardName) {
+        UserModel userModel = new UserModel(this);
+        User currentUser = userModel.getUser(user.getUserName());
+        if (currentUser == null || currentUser.getCurrency() == null) {
+            return false;
+        }
+        int userCurrency = user.getCurrency().getSeniorCurrency() * 3 + user.getCurrency().getJuniorCurrency();
+
+        Award award = model.getAward(awardName);
+        if (award == null || award.getAwardValue() == null) {
+            return false;
+        }
+        int awardVal = award.getAwardValue().getSeniorCurrency() * 3 + award.getAwardValue().getJuniorCurrency();
+
+        if (userCurrency < awardVal) {
+            return false;
+        }
+
+        List<Award> userOldAward = user.getAwardArrayList();
+        ArrayList<Award> userAward;
+        if (userOldAward == null) {
+            userAward = new ArrayList<>();
+        } else {
+            userAward = new ArrayList<>(userOldAward);
+        }
+        userAward.add(award);
+
+        userCurrency -= awardVal;
+        Currency currency = new Currency();
+        currency.setSeniorCurrency(userCurrency / 3);
+        currency.setJuniorCurrency(userCurrency % 3);
+
+        currentUser.setCurrency(currency);
+        currentUser.setAwardArrayList(userAward);
+
+        userModel.updateUser(currentUser.getUserName(), currentUser);
+
+        return true;
+    }
+
+    @Override
     public void notifyUpdate() {
         viewWeakReference.get().runOnViewThread(new Runnable() {
             @Override
             public void run() {
-                viewWeakReference.get().showAwardList(listAllAward());
+                viewWeakReference.get().showAwardList();
             }
         });
     }
