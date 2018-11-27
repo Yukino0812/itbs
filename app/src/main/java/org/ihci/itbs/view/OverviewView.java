@@ -83,10 +83,6 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        int x = (int) ev.getX();
-        int y = (int) ev.getY();
-        View root = getWindow().getDecorView();
-        View tableLayout = findTableLayout(root, x, y);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 lastPressDownX = ev.getX();
@@ -101,11 +97,21 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
                 } else if (ev.getX() < lastPressDownX - 100) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
-                if (ev.getY() > lastPressDownY + 100) {
-                    findViewById(R.id.buttonTimeDescriptionToLeft).performClick();
-                } else if (ev.getY() < lastPressDownY - 100) {
-                    findViewById(R.id.buttonTimeDescriptionToRight).performClick();
+
+                if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    int x = (int) ev.getX();
+                    int y = (int) ev.getY();
+                    View root = getWindow().getDecorView();
+                    View tableLayout = findTableLayout(root, x, y);
+                    if (tableLayout instanceof TableLayout) {
+                        if (ev.getY() > lastPressDownY + 100) {
+                            findViewById(R.id.buttonTimeDescriptionToLeft).performClick();
+                        } else if (ev.getY() < lastPressDownY - 100) {
+                            findViewById(R.id.buttonTimeDescriptionToRight).performClick();
+                        }
+                    }
                 }
+
             default:
         }
         return super.dispatchTouchEvent(ev);
@@ -201,6 +207,8 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         initNavUser();
         initNavRecommendSetting();
         initUiThemeSetting();
+
+        initNavToAwardView();
     }
 
     private void initRecommendContent() {
@@ -285,7 +293,17 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     }
 
     private void initUserAwardAndCurrency(User user) {
+        TextView textViewAward = findViewById(R.id.textViewAwardNumber);
+        TextView textViewSenior = findViewById(R.id.textViewSeniorCurrency);
+        TextView textViewJunior = findViewById(R.id.textViewJuniorCurrency);
+
         if (user == null) {
+            textViewAward.setText(String.valueOf(0));
+            textViewSenior.setText(String.valueOf(0));
+            textViewJunior.setText(String.valueOf(0));
+            textViewAward.setTextColor(StyleSelector.getTextColor());
+            textViewSenior.setTextColor(StyleSelector.getTextColor());
+            textViewJunior.setTextColor(StyleSelector.getTextColor());
             return;
         }
         List<Award> awards = user.getAwardArrayList();
@@ -303,10 +321,6 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             seniorCurrency = currency.getSeniorCurrency();
             juniorCurrency = currency.getJuniorCurrency();
         }
-
-        TextView textViewAward = findViewById(R.id.textViewAwardNumber);
-        TextView textViewSenior = findViewById(R.id.textViewSeniorCurrency);
-        TextView textViewJunior = findViewById(R.id.textViewJuniorCurrency);
 
         // Set Text
         textViewAward.setText(String.valueOf(numOfAwards));
@@ -617,12 +631,19 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         View header = navigationView.getHeaderView(0);
         final Switch recommendSwitch = header.findViewById(R.id.switchNavRecommendSetting);
         recommendSwitch.setChecked(GlobalSettingModel.getInstance().isRecommend());
-
         recommendSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GlobalSettingModel.getInstance().setRecommend(!GlobalSettingModel.getInstance().isRecommend());
                 recommendSwitch.setChecked(GlobalSettingModel.getInstance().isRecommend());
+            }
+        });
+
+        ConstraintLayout constraintLayoutRecommendSetting = header.findViewById(R.id.constraintLayoutNavRecommendSetting);
+        constraintLayoutRecommendSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recommendSwitch.performClick();
             }
         });
 
@@ -668,9 +689,28 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         });
     }
 
+    private void initNavToAwardView() {
+        NavigationView navigationView = findViewById(R.id.navigationViewMain);
+        View header = navigationView.getHeaderView(0);
+
+        TextView textViewToAwardView = header.findViewById(R.id.textViewNavGoToAward);
+        textViewToAwardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toAwardView();
+            }
+        });
+    }
+
     private void toUserView() {
         Intent intent = new Intent();
         intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.UserView.class);
+        startActivity(intent);
+    }
+
+    private void toAwardView() {
+        Intent intent = new Intent();
+        intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.AwardView.class);
         startActivity(intent);
     }
 
