@@ -3,9 +3,13 @@ package org.ihci.itbs.presenter;
 import org.ihci.itbs.contract.UserContract;
 import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.UserModel;
+import org.ihci.itbs.model.pojo.Award;
+import org.ihci.itbs.model.pojo.Currency;
+import org.ihci.itbs.model.pojo.Toothbrush;
 import org.ihci.itbs.model.pojo.User;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,6 +69,9 @@ public class UserPresenter implements UserContract.Presenter {
         User user = new User();
         user.setUserName(userName);
         user.setUserPassword(userPassword);
+        user.setAwardArrayList(new ArrayList<Award>());
+        user.setToothbrushArrayList(new ArrayList<Toothbrush>());
+        user.setCurrency(new Currency());
         userModel.addUser(user);
         GlobalSettingModel.getInstance().setCurrentUserName(userName);
         return true;
