@@ -82,10 +82,8 @@ public class UserView extends Activity implements UserContract.View {
 
     private void initRecyclerViewItem() {
         final RecyclerView recyclerView = findViewById(R.id.recyclerViewUser);
-        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        int firstPosition = linearLayoutManager.findFirstVisibleItemPosition();
         for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
-            ConstraintLayout layout = (ConstraintLayout) linearLayoutManager.getChildAt(firstPosition + i);
+            ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
             Button deleteButton = layout.findViewById(R.id.buttonDeleteLocalUser);
             ImageView imageViewMark = layout.findViewById(R.id.imageViewMarkCurrentUser);
             final TextView textViewUserName = layout.findViewById(R.id.textViewUserName);
@@ -149,7 +147,10 @@ public class UserView extends Activity implements UserContract.View {
         RecyclerView recyclerView = findViewById(R.id.recyclerViewUser);
         for (int i = 0; i < recyclerView.getChildCount(); ++i) {
             ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
-            layout.findViewById(R.id.buttonDeleteLocalUser).setVisibility(View.VISIBLE);
+            TextView textViewUserName = layout.findViewById(R.id.textViewUserName);
+            if (!textViewUserName.getText().toString().equals(GlobalSettingModel.getInstance().getCurrentUserName())) {
+                layout.findViewById(R.id.buttonDeleteLocalUser).setVisibility(View.VISIBLE);
+            }
             layout.findViewById(R.id.imageViewMarkCurrentUser).setVisibility(View.GONE);
         }
     }
