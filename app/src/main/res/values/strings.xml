@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">itbs</string>
+
+    <string name="duck">小鸭子</string>
+    <string name="car">小汽车</string>
+    <string name="block">积木</string>
+    <string name="rabbit">小兔</string>
+    <string name="ball">玩具球</string>
+    <string name="windmill">风车</string>
+    <string name="transformer">变形金刚</string>
+    <string name="hello_kitty">Hello Kitty</string>
+    <string name="yellow_duck">小黄鸭（程序员用）</string>
+    <string name="bear">小熊</string>
+    <string name="superman">超人</string>
+    <string name="doraemon">哆啦A梦</string>
 </resources>
