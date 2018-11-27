@@ -3,6 +3,7 @@ package org.ihci.itbs.contract;
 import org.ihci.itbs.BasePresenter;
 import org.ihci.itbs.BaseView;
 import org.ihci.itbs.model.pojo.Award;
+import org.ihci.itbs.model.pojo.User;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface AwardContract {
 
     interface View extends BaseView {
 
-        void showAwardList(List<Award> awards);
+        void showAwardList();
 
     }
 
@@ -25,6 +26,8 @@ public interface AwardContract {
         Award getAward(String awardName);
 
         void userGetAward(Award award);
+
+        boolean buyAward(User user, String awardName);
 
     }
 

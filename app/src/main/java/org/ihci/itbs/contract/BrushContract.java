@@ -16,7 +16,7 @@ public interface BrushContract {
 
     interface View extends BaseView {
 
-        void showBrushList(List<Toothbrush> toothbrushes);
+        void showBrushList();
 
     }
 
