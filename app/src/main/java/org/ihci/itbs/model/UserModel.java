@@ -109,6 +109,7 @@ public class UserModel {
         }
         newUser.setLastUpdate(new Date());
         UserLocalRepo.getInstance().updateUser(userName, newUser);
+        UserRemoteRepo.getInstance().updateUser(userName, newUser);
     }
 
     private void syncUser(User localUser, User remoteUser) {
