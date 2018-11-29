@@ -108,7 +108,7 @@ public class ToothbrushRemoteRepo implements ToothbrushRepo, Serializable {
     }
 
     private static void read() {
-        final String fileName = "toothbrush_local_repo.txt";
+        final String fileName = "toothbrush_remote_repo.txt";
 
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(ItbsApplication.getContext().openFileInput(fileName));
