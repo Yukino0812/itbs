@@ -60,6 +60,9 @@ public class CalendarPresenter implements CalendarContract.Presenter {
         }
         ArrayList<HistoryUse> uses = new ArrayList<>();
         for (Toothbrush toothbrush : toothbrushes) {
+            if (toothbrush == null) {
+                continue;
+            }
             List<HistoryUse> historyUses = toothbrush.getHistoryUseArrayList();
             uses.addAll(historyUses);
         }
