@@ -63,12 +63,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     @Override
     protected void onResume() {
         super.onResume();
-        TextView textViewUserName = findViewById(R.id.textViewUserName);
-        if (GlobalSettingModel.getInstance().getCurrentUserName() != null && !"".equals(GlobalSettingModel.getInstance().getCurrentUserName())) {
-            if (!GlobalSettingModel.getInstance().getCurrentUserName().equals(textViewUserName.getText().toString())) {
-                initView();
-            }
-        }
+        initView();
     }
 
     @Override
@@ -346,7 +341,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         View.OnClickListener mouthOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO go to brush teeth view
+                toBrushView();
             }
         };
         topMouth.setOnClickListener(mouthOnClickListener);
@@ -711,6 +706,12 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private void toAwardView() {
         Intent intent = new Intent();
         intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.AwardView.class);
+        startActivity(intent);
+    }
+
+    private void toBrushView() {
+        Intent intent = new Intent();
+        intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.BrushView.class);
         startActivity(intent);
     }
 
