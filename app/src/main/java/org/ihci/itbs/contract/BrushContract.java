@@ -24,6 +24,8 @@ public interface BrushContract {
 
         List<Toothbrush> listToothbrush();
 
+        Toothbrush getCurrentToothbrush();
+
         void removeToothbrush(int toothbrushId);
 
         int connectBrush(int toothbrushId);

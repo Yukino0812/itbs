@@ -54,6 +54,11 @@ public class BrushPresenter implements BrushContract.Presenter {
     }
 
     @Override
+    public Toothbrush getCurrentToothbrush() {
+        return currentToothbrush;
+    }
+
+    @Override
     public void removeToothbrush(int toothbrushId) {
         model.removeLocalToothbrush(toothbrushId);
     }
