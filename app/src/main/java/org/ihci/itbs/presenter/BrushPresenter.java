@@ -217,7 +217,48 @@ public class BrushPresenter implements BrushContract.Presenter {
 
                 UserModel userModel = new UserModel(BrushPresenter.this);
                 String currentUserName = GlobalSettingModel.getInstance().getCurrentUserName();
-                userModel.updateUser(currentUserName, userModel.getLocalUser(currentUserName));
+
+                User user = userModel.getLocalUser(currentUserName);
+
+                if (gainAward != null) {
+                    ArrayList<Award> userAward = user.getAwardArrayList();
+                    if (userAward == null) {
+                        userAward = new ArrayList<>();
+                    }
+
+                    userAward.add(gainAward);
+                    user.setAwardArrayList(userAward);
+                }
+
+                Currency userCurrency = user.getCurrency();
+                if (userCurrency == null) {
+                    userCurrency = new Currency();
+                }
+                if (gainCurrency == null) {
+                    gainCurrency = new Currency();
+                }
+                int junior = userCurrency.getJuniorCurrency() + gainCurrency.getJuniorCurrency();
+                int senior = userCurrency.getSeniorCurrency() + gainCurrency.getSeniorCurrency();
+                senior += junior / 3;
+                junior %= 3;
+                userCurrency.setJuniorCurrency(junior);
+                userCurrency.setSeniorCurrency(senior);
+                user.setCurrency(userCurrency);
+
+                ArrayList<Toothbrush> userToothbrushList = user.getToothbrushArrayList();
+                if (userToothbrushList == null) {
+                    userToothbrushList = new ArrayList<>();
+                    userToothbrushList.add(toothbrush);
+                }
+                for (Toothbrush toothbrush1 : userToothbrushList) {
+                    if (toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()) {
+                        userToothbrushList.remove(toothbrush1);
+                        userToothbrushList.add(toothbrush);
+                    }
+                }
+                user.setToothbrushArrayList(userToothbrushList);
+
+                userModel.updateUser(currentUserName, user);
             }
         });
     }
