@@ -100,14 +100,13 @@ public class UserLocalRepo implements UserRepo, Serializable {
             addUser(newUser);
         }
 
-        for (User user : localUserArrayList) {
-            if (user.getUserName().equals(oldUserName)) {
-                localUserArrayList.remove(user);
+        for (int i = 0; i < localUserArrayList.size(); ++i) {
+            if (localUserArrayList.get(i).getUserName().equals(oldUserName)) {
                 try {
-                    localUserArrayList.add(newUser.clone());
+                    localUserArrayList.set(i, newUser.clone());
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
-                    localUserArrayList.add(newUser);
+                    localUserArrayList.set(i, newUser);
                 }
             }
         }

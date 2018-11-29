@@ -74,10 +74,9 @@ public class UserRemoteRepo implements UserRepo, Serializable {
         if (userArrayList == null) {
             userArrayList = new ArrayList<>();
         }
-        for (User user : userArrayList) {
-            if (user.getUserName().equals(oldUserName)) {
-                userArrayList.remove(user);
-                userArrayList.add(newUser);
+        for (int i = 0; i < userArrayList.size(); ++i) {
+            if (userArrayList.get(i).getUserName().equals(oldUserName)) {
+                userArrayList.set(i, newUser);
                 save();
                 return;
             }
