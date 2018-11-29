@@ -10,7 +10,8 @@ import org.ihci.itbs.model.pojo.Award;
 import org.ihci.itbs.model.pojo.Currency;
 import org.ihci.itbs.model.pojo.HistoryUse;
 import org.ihci.itbs.model.pojo.Toothbrush;
-import org.ihci.itbs.model.repo.AwardLocalRepo;
+import org.ihci.itbs.model.pojo.User;
+import org.ihci.itbs.model.repo.AwardRemoteRepo;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -65,12 +66,19 @@ public class BrushPresenter implements BrushContract.Presenter {
 
     @Override
     public int connectBrush(int toothbrushId) {
-        List<Toothbrush> localToothbrushList = listToothbrush();
-        if (localToothbrushList == null || toothbrushId == 0) {
-            currentToothbrush = model.getToothbrush(new Random().nextInt(500000) + 1);
+        UserModel userModel = new UserModel(this);
+        User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
+        List<Toothbrush> localToothbrushList = user.getToothbrushArrayList();
+        if (localToothbrushList != null && localToothbrushList.size() != 0) {
+            currentToothbrush = model.getToothbrush(localToothbrushList.get(0).getToothbrushId());
         } else {
-            currentToothbrush = model.getToothbrush(toothbrushId);
+            currentToothbrush = model.getToothbrush(new Random().nextInt(500000) + 1);
+            localToothbrushList = new ArrayList<>();
+            localToothbrushList.add(currentToothbrush);
         }
+        user.setToothbrushArrayList(new ArrayList<>(localToothbrushList));
+        userModel.updateUser(user.getUserName(), user);
+
         if (currentToothbrush == null) {
             return 0;
         } else {
@@ -92,7 +100,6 @@ public class BrushPresenter implements BrushContract.Presenter {
     public void stopBrush() {
         this.stopDate = new Date();
         evaluateBrush();
-        gainAward();
         updateToothbrush();
     }
 
@@ -121,11 +128,12 @@ public class BrushPresenter implements BrushContract.Presenter {
     }
 
     private void evaluateBrush() {
-        if (startDate == null || stopDate == null || stopDate.compareTo(startDate) > 0) {
+        gainCurrency = new Currency();
+        if (startDate == null || stopDate == null || stopDate.compareTo(startDate) < 0) {
             return;
         }
         long timeDiff = stopDate.getTime() - startDate.getTime();
-        gainCurrency = new Currency();
+
         if (timeDiff < 15 * 1000) {
             // get 0 star
         } else if (timeDiff < 30 * 1000) {
@@ -150,6 +158,10 @@ public class BrushPresenter implements BrushContract.Presenter {
         } else {
             gainCurrency.setJuniorCurrency(3);
         }
+
+        if (timeDiff >= 30 * 1000) {
+            gainAward();
+        }
     }
 
     private void gainAward() {
@@ -170,7 +182,7 @@ public class BrushPresenter implements BrushContract.Presenter {
         }
 
         if (Math.random() < gainAwardProbability) {
-            List<Award> awards = AwardLocalRepo.getInstance().listAllAward();
+            List<Award> awards = AwardRemoteRepo.getInstance().listAllAward();
             ArrayList<Award> littleAwards = new ArrayList<>();
             for (Award award : awards) {
                 if (award.getAwardType().equals("little")) {
