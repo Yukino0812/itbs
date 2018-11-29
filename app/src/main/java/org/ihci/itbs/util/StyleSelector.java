@@ -90,4 +90,26 @@ public class StyleSelector {
         }
     }
 
+    public static Drawable getLeftArrow() {
+        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
+            case BOY:
+                return ItbsApplication.getContext().getDrawable(R.drawable.arrow_left_boy);
+            case GIRL:
+                return ItbsApplication.getContext().getDrawable(R.drawable.arrow_left_girl);
+            default:
+                return ItbsApplication.getContext().getDrawable(R.drawable.arrow_left_boy);
+        }
+    }
+
+    public static Drawable getRightArrow() {
+        switch (GlobalSettingModel.getInstance().getCurrentTheme()) {
+            case BOY:
+                return ItbsApplication.getContext().getDrawable(R.drawable.arrow_right_boy);
+            case GIRL:
+                return ItbsApplication.getContext().getDrawable(R.drawable.arrow_right_girl);
+            default:
+                return ItbsApplication.getContext().getDrawable(R.drawable.arrow_right_boy);
+        }
+    }
+
 }
