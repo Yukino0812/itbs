@@ -25,10 +25,18 @@ import java.util.List;
 public class AwardAdapter extends RecyclerView.Adapter<AwardAdapter.ViewHolder> {
 
     private List<Award> awardList;
+    private boolean showValue;
 
     public AwardAdapter(List<Award> awards) {
         super();
         awardList = awards;
+        showValue = true;
+    }
+
+    public AwardAdapter(List<Award> awards, boolean showValue) {
+        super();
+        this.awardList = awards;
+        this.showValue = showValue;
     }
 
     @NonNull
@@ -51,6 +59,8 @@ public class AwardAdapter extends RecyclerView.Adapter<AwardAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView awardPicture;
+        ImageView imageViewSeniorCurrency;
+        ImageView imageViewJuniorCurrency;
         TextView awardName;
         TextView textViewSeniorCurrency;
         TextView textViewJuniorCurrency;
@@ -62,6 +72,8 @@ public class AwardAdapter extends RecyclerView.Adapter<AwardAdapter.ViewHolder> 
             awardName = view.findViewById(R.id.textViewAwardName);
             textViewSeniorCurrency = view.findViewById(R.id.textViewSeniorCurrency);
             textViewJuniorCurrency = view.findViewById(R.id.textViewJuniorCurrency);
+            imageViewSeniorCurrency = view.findViewById(R.id.imageViewSeniorCurrency);
+            imageViewJuniorCurrency = view.findViewById(R.id.imageViewJuniorCurrency);
             buyButton = view.findViewById(R.id.buttonBuyAward);
         }
 
@@ -84,7 +96,14 @@ public class AwardAdapter extends RecyclerView.Adapter<AwardAdapter.ViewHolder> 
                 awardName.setHint("Unknown Award");
                 textViewSeniorCurrency.setText(String.valueOf(0));
                 textViewJuniorCurrency.setText(String.valueOf(0));
-                buyButton.setVisibility(View.GONE);
+            }
+            buyButton.setVisibility(View.GONE);
+
+            if (!showValue) {
+                textViewSeniorCurrency.setVisibility(View.GONE);
+                textViewJuniorCurrency.setVisibility(View.GONE);
+                imageViewSeniorCurrency.setVisibility(View.GONE);
+                imageViewJuniorCurrency.setVisibility(View.GONE);
             }
         }
 
@@ -99,7 +118,7 @@ public class AwardAdapter extends RecyclerView.Adapter<AwardAdapter.ViewHolder> 
             }
         }
 
-        private String getStringAwardName(String awardName){
+        private String getStringAwardName(String awardName) {
             try {
                 R.string instance = new R.string();
                 Field field = instance.getClass().getField(awardName);
