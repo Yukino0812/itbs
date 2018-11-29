@@ -157,39 +157,19 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewUserAwardList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        AwardAdapter awardAdapter = new AwardAdapter(awards);
+        AwardAdapter awardAdapter = new AwardAdapter(awards, false);
 
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(awardAdapter);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initUserAwardButton();
-            }
-        }, 20);
-    }
-
-    private void initUserAwardButton() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewUserAwardList);
-
-        for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
-            ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
-            Button buyButton = layout.findViewById(R.id.buttonBuyAward);
-            buyButton.setClickable(false);
-            buyButton.setVisibility(View.GONE);
-
-            layout.findViewById(R.id.textViewSeniorCurrency).setVisibility(View.GONE);
-            layout.findViewById(R.id.textViewJuniorCurrency).setVisibility(View.GONE);
-        }
     }
 
     private void initBigAward(List<Award> allAward) {
         ArrayList<Award> bigAward = new ArrayList<>();
         if (allAward == null) {
             findViewById(R.id.constraintLayoutBigAward).setVisibility(View.GONE);
-        }else {
+        } else {
             for (Award award : allAward) {
                 if ("big".equals(award.getAwardType())) {
                     bigAward.add(award);
@@ -217,7 +197,7 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         ArrayList<Award> mediumAward = new ArrayList<>();
         if (allAward == null) {
             findViewById(R.id.constraintLayoutMediumAward).setVisibility(View.GONE);
-        }else {
+        } else {
             for (Award award : allAward) {
                 if ("medium".equals(award.getAwardType())) {
                     mediumAward.add(award);
@@ -245,7 +225,7 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         ArrayList<Award> littleAward = new ArrayList<>();
         if (allAward == null) {
             findViewById(R.id.constraintLayoutLittleAward).setVisibility(View.GONE);
-        }else {
+        } else {
             for (Award award : allAward) {
                 if ("little".equals(award.getAwardType())) {
                     littleAward.add(award);
@@ -275,13 +255,15 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         recyclerViewAry[1] = findViewById(R.id.recyclerViewMediumAwardList);
         recyclerViewAry[2] = findViewById(R.id.recyclerViewLittleAwardList);
 
-        for(RecyclerView recyclerView:recyclerViewAry){
+        for (RecyclerView recyclerView : recyclerViewAry) {
             for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
                 ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
                 Button buyButton = layout.findViewById(R.id.buttonBuyAward);
                 final TextView textViewSenior = layout.findViewById(R.id.textViewSeniorCurrency);
                 final TextView textViewJunior = layout.findViewById(R.id.textViewJuniorCurrency);
                 final TextView textViewAwardName = layout.findViewById(R.id.textViewAwardName);
+
+                buyButton.setVisibility(View.VISIBLE);
                 buyButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
