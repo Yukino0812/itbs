@@ -441,6 +441,14 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         } else {
             user = new User();
         }
+
+        findViewById(R.id.constraintLayoutGoalInner).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toGoalView();
+            }
+        });
+
         TextView textViewGoal = findViewById(R.id.textViewGoalDescription);
         Goal goal = user.getGoal();
         if (goal == null) {
@@ -454,7 +462,6 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             textViewGoal.setText(goalContent);
         }
 
-        // TODO Set goal onclick listener
     }
 
     private void initGoalBackground() {
@@ -712,6 +719,12 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private void toBrushView() {
         Intent intent = new Intent();
         intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.BrushView.class);
+        startActivity(intent);
+    }
+
+    private void toGoalView() {
+        Intent intent = new Intent();
+        intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.GoalView.class);
         startActivity(intent);
     }
 
