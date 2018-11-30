@@ -52,7 +52,11 @@ public class GoalPresenter implements GoalContract.Presenter {
     public Goal getUserGoal() {
         UserModel userModel = new UserModel(this);
         User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
-        return model.getGoal(user.getGoal().getGoalId());
+        Goal goal = user.getGoal();
+        if (goal == null) {
+            return null;
+        }
+        return model.getGoal(goal.getGoalId());
     }
 
     @Override
