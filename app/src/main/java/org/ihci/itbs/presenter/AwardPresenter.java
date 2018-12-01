@@ -105,12 +105,20 @@ public class AwardPresenter implements AwardContract.Presenter {
         return true;
     }
 
+    /**
+     * Do not use {@link AwardPresenter#listAllAward()} here before change the
+     * code of {@link org.ihci.itbs.model.repo.AwardLocalRepo#realSync(List)}.
+     * <p>
+     * Because {@link AwardPresenter#listAllAward()} will call
+     * {@link AwardModel#listAward()}, and cause a {@code AwardLocalRepo}
+     * update, then notify presenter to update, will make a loop.
+     */
     @Override
     public void notifyUpdate() {
         viewWeakReference.get().runOnViewThread(new Runnable() {
             @Override
             public void run() {
-                viewWeakReference.get().showAwardList();
+                // update by user
             }
         });
     }

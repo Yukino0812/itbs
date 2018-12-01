@@ -100,6 +100,7 @@ public class AwardAdapter extends RecyclerView.Adapter<AwardAdapter.ViewHolder> 
             buyButton.setVisibility(View.GONE);
 
             if (!showValue) {
+                buyButton.setVisibility(View.GONE);
                 textViewSeniorCurrency.setVisibility(View.GONE);
                 textViewJuniorCurrency.setVisibility(View.GONE);
                 imageViewSeniorCurrency.setVisibility(View.GONE);

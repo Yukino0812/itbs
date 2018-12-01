@@ -49,7 +49,7 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
     }
 
     @Override
-    public void showAwardList() {
+    public void showAwardList(List<Award> allAward) {
 
     }
 
@@ -145,6 +145,13 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         initBigAward(allAward);
         initMediumAward(allAward);
         initLittleAward(allAward);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initBuyAwardButtonListener();
+            }
+        }, 20);
     }
 
     private void initUserAward() {
@@ -162,7 +169,6 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(awardAdapter);
-
     }
 
     private void initBigAward(List<Award> allAward) {
@@ -184,13 +190,6 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(awardAdapter);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initBuyAwardButtonListener();
-            }
-        }, 20);
     }
 
     private void initMediumAward(List<Award> allAward) {
@@ -212,13 +211,6 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(awardAdapter);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initBuyAwardButtonListener();
-            }
-        }, 20);
     }
 
     private void initLittleAward(List<Award> allAward) {
@@ -240,13 +232,6 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(awardAdapter);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initBuyAwardButtonListener();
-            }
-        }, 20);
     }
 
     private void initBuyAwardButtonListener() {
@@ -258,6 +243,9 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
         for (RecyclerView recyclerView : recyclerViewAry) {
             for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
                 ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
+                if (layout == null) {
+                    break;
+                }
                 Button buyButton = layout.findViewById(R.id.buttonBuyAward);
                 final TextView textViewSenior = layout.findViewById(R.id.textViewSeniorCurrency);
                 final TextView textViewJunior = layout.findViewById(R.id.textViewJuniorCurrency);

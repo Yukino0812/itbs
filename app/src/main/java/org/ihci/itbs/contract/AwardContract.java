@@ -15,7 +15,7 @@ public interface AwardContract {
 
     interface View extends BaseView {
 
-        void showAwardList();
+        void showAwardList(List<Award> awardList);
 
     }
 
