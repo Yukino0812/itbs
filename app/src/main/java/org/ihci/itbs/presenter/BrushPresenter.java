@@ -208,6 +208,9 @@ public class BrushPresenter implements BrushContract.Presenter {
         singleThread.execute(new Runnable() {
             @Override
             public void run() {
+                if (currentToothbrush == null) {
+                    return;
+                }
                 Toothbrush toothbrush;
                 try {
                     toothbrush = currentToothbrush.clone();
