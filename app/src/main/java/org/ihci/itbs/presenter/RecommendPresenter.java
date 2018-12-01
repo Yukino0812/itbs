@@ -6,13 +6,22 @@ import org.ihci.itbs.contract.RecommendContract;
 import org.ihci.itbs.model.RecommendModel;
 import org.ihci.itbs.model.pojo.RecommendItem;
 import org.ihci.itbs.util.DateSelector;
+import org.jetbrains.annotations.Contract;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -42,6 +51,9 @@ public class RecommendPresenter implements RecommendContract.Presenter {
         Collections.sort(recommendItemArrayList, new Comparator<RecommendItem>() {
             @Override
             public int compare(RecommendItem o1, RecommendItem o2) {
+                if (o1.getUpdateDate() == null || o2.getUpdateDate() == null) {
+                    return 0;
+                }
                 return -o1.getUpdateDate().compareTo(o2.getUpdateDate());
             }
         });
@@ -102,12 +114,13 @@ public class RecommendPresenter implements RecommendContract.Presenter {
         });
     }
 
+    @Contract("null -> null")
     private List<RecommendItem> removeOutOfDateRecommendItems(List<RecommendItem> recommendItems) {
         if (recommendItems == null) {
             return null;
         }
         ArrayList<RecommendItem> recommendItemArrayList = new ArrayList<>();
-        Date weekAgo = DateSelector.getStartTimeThisDay(new DateSelector().getDaysAfter(-7));
+        Date weekAgo = DateSelector.getStartTimeThisDay(new DateSelector().getDaysAfter(-90));
         for (RecommendItem item : recommendItems) {
             if (item.getUpdateDate().compareTo(weekAgo) >= 0) {
                 recommendItemArrayList.add(item);
@@ -119,18 +132,28 @@ public class RecommendPresenter implements RecommendContract.Presenter {
     }
 
     private List<RecommendItem> addLatestRecommendItems(List<RecommendItem> recommendItems) {
-        Date startDate;
-        if (recommendItems == null || recommendItems.size() == 0) {
-            startDate = DateSelector.getStartTimeThisDay(new DateSelector().getDaysAfter(-7));
-        } else {
-            startDate = recommendItems.get(0).getUpdateDate();
+        if (recommendItems == null) {
+            return getRecommendItemsFromInternet(null);
         }
 
-        // TODO
+        ArrayList<String> filterTitleList = new ArrayList<>(recommendItems.size());
+        for (RecommendItem item : recommendItems) {
+            if (item == null || item.getTitle() == null) {
+                continue;
+            }
+            filterTitleList.add(item.getTitle());
+        }
+        ArrayList<RecommendItem> resultItems = new ArrayList<>(recommendItems);
+        List<RecommendItem> newItems = getRecommendItemsFromInternet(filterTitleList);
+        if (newItems == null || newItems.size() == 0) {
+            return resultItems;
+        }
+        resultItems.addAll(newItems);
 
-        return recommendItems;
+        return resultItems;
     }
 
+    @Contract("null -> null")
     private List<RecommendItem> sortRecommendItems(List<RecommendItem> recommendItems) {
         if (recommendItems == null) {
             return null;
@@ -139,6 +162,9 @@ public class RecommendPresenter implements RecommendContract.Presenter {
         Collections.sort(resultList, new Comparator<RecommendItem>() {
             @Override
             public int compare(RecommendItem o1, RecommendItem o2) {
+                if (o1.getUpdateDate() == null || o2.getUpdateDate() == null) {
+                    return 0;
+                }
                 return -o1.getUpdateDate().compareTo(o2.getUpdateDate());
             }
         });
@@ -155,4 +181,65 @@ public class RecommendPresenter implements RecommendContract.Presenter {
             }
         });
     }
+
+    /**
+     * Source:
+     *
+     * @return recommend items from source
+     */
+    private List<RecommendItem> getRecommendItemsFromInternet(List<String> filterSameTitle) {
+        final String source = "正保医学教育网";
+        final String sourceUrl = "http://www.med66.com/kouqiangchangshi/";
+
+        ArrayList<RecommendItem> result = new ArrayList<>();
+
+        try {
+            Document doc = Jsoup.connect(sourceUrl).get();
+            Elements elements = doc.select("divnewslist").select("li");
+
+            for (Element element : elements) {
+                RecommendItem item = new RecommendItem();
+
+                Elements elementTime = element.select("span[class]");
+                Elements elementTitle = element.select("a[title][href]");
+
+                for (Element element1 : elementTitle) {
+                    item.setTitle(element1.text());
+                    item.setLink("http://www.med66.com" + element1.attr("href"));
+                    item.setContent("");
+                }
+
+                if (filterSameTitle != null && filterSameTitle.contains(item.getTitle())) {
+                    continue;
+                }
+
+                if (item.getTitle() == null || "".equals(item.getTitle())) {
+                    continue;
+                }
+
+                for (Element element1 : elementTime) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+                    try {
+                        item.setUpdateDate(simpleDateFormat.parse(element1.text()));
+                    } catch (ParseException e) {
+                        item.setUpdateDate(new Date());
+                    }
+                }
+
+                if (item.getUpdateDate() == null) {
+                    continue;
+                }
+
+                item.setSource(source);
+
+                result.add(item);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 }
