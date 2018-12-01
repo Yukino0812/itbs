@@ -169,7 +169,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
 
     @Override
     public void refreshRecommendItem() {
-        // do nothing
+        initRecommendContent();
     }
 
     @Override
@@ -185,6 +185,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private void initView() {
         calendarPresenter = new CalendarPresenter(this);
         userPresenter = new UserPresenter(this);
+        new RecommendPresenter(this).updateLatestRecommendItem();
 
         initMainView();
         initNavigationView();
@@ -207,12 +208,14 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     }
 
     private void initRecommendContent() {
-        new RecommendPresenter(this).updateLatestRecommendItem();
         TextView textViewRecommend = findViewById(R.id.textViewRecommend);
         if (!GlobalSettingModel.getInstance().isRecommend()) {
             textViewRecommend.setVisibility(View.GONE);
             return;
+        } else {
+            textViewRecommend.setVisibility(View.VISIBLE);
         }
+
         List<RecommendItem> recommendItems = RecommendRepo.getInstance().getRecommendItemArrayList();
         if (recommendItems == null || recommendItems.size() == 0) {
             textViewRecommend.setVisibility(View.GONE);
@@ -220,6 +223,13 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         }
 
         textViewRecommend.setText(recommendItems.get(new Random().nextInt(recommendItems.size())).getTitle());
+
+        textViewRecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toRecommendView();
+            }
+        });
     }
 
     private void initUser() {
@@ -638,6 +648,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             public void onClick(View v) {
                 GlobalSettingModel.getInstance().setRecommend(!GlobalSettingModel.getInstance().isRecommend());
                 recommendSwitch.setChecked(GlobalSettingModel.getInstance().isRecommend());
+                initRecommendContent();
             }
         });
 
@@ -653,7 +664,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         constraintLayoutRecommendEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO go to recommend
+                toRecommendView();
             }
         });
     }
@@ -695,8 +706,8 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         NavigationView navigationView = findViewById(R.id.navigationViewMain);
         View header = navigationView.getHeaderView(0);
 
-        TextView textViewToAwardView = header.findViewById(R.id.textViewNavGoToAward);
-        textViewToAwardView.setOnClickListener(new View.OnClickListener() {
+        ConstraintLayout constraintLayoutNavGoToAward = header.findViewById(R.id.constraintLayoutNavGoToAward);
+        constraintLayoutNavGoToAward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toAwardView();
@@ -725,6 +736,12 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private void toGoalView() {
         Intent intent = new Intent();
         intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.GoalView.class);
+        startActivity(intent);
+    }
+
+    private void toRecommendView() {
+        Intent intent = new Intent();
+        intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.RecommendView.class);
         startActivity(intent);
     }
 
