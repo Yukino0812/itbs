@@ -1,5 +1,7 @@
 package org.ihci.itbs.util;
 
+import org.jetbrains.annotations.Contract;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -193,17 +195,29 @@ public class DateSelector {
         return calendar.getTime();
     }
 
+    @Contract("null -> null")
     public static String dateToString(Date date) {
+        if (date == null) {
+            return null;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         return simpleDateFormat.format(date);
     }
 
+    @Contract("null -> null")
     public static Date stringToDate(String date) throws ParseException {
+        if (date == null) {
+            return null;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         return simpleDateFormat.parse(date);
     }
 
+    @Contract("null -> null")
     public static String dateToStringWithoutTime(Date date) {
+        if (date == null) {
+            return null;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
         return simpleDateFormat.format(date);
     }
