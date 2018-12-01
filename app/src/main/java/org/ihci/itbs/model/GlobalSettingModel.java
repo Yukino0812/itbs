@@ -37,6 +37,8 @@ public class GlobalSettingModel implements Serializable {
         }
         if (INSTANCE == null) {
             INSTANCE = new GlobalSettingModel();
+            INSTANCE.setCurrentTheme(UiTheme.BOY);
+            INSTANCE.setRecommend(true);
         }
         return INSTANCE;
     }
