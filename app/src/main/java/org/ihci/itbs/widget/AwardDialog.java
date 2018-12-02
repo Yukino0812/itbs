@@ -2,6 +2,7 @@ package org.ihci.itbs.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerAdapter;
@@ -47,6 +48,8 @@ public class AwardDialog extends Dialog {
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.dialog_award, null);
         setContentView(view);
+
+        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         initViewPager();
         initStar();
@@ -111,10 +114,16 @@ public class AwardDialog extends Dialog {
         ImageView imageViewLeftAward = view.findViewById(R.id.imageViewLeftAward);
         ImageView imageViewRightAward = view.findViewById(R.id.imageViewRightAward);
 
-        constraintLayoutAward.setBackgroundColor(StyleSelector.getColorLight());
-        constraintLayoutStar.setBackgroundColor(StyleSelector.getColorPrimary());
         imageViewLeftAward.setImageDrawable(StyleSelector.getLeftArrow());
         imageViewRightAward.setImageDrawable(StyleSelector.getRightArrow());
+
+        GradientDrawable gradientDrawableAward = (GradientDrawable) constraintLayoutAward.getBackground();
+        gradientDrawableAward.setColor(StyleSelector.getColorLight());
+        constraintLayoutAward.setBackground(gradientDrawableAward);
+
+        GradientDrawable gradientDrawableStar = (GradientDrawable) constraintLayoutStar.getBackground();
+        gradientDrawableStar.setColor(StyleSelector.getColorPrimary());
+        constraintLayoutStar.setBackground(gradientDrawableStar);
     }
 
 }
