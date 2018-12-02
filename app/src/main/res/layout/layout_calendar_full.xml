@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textViewDayOfMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayoutStar"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayoutStar"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutStar"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewAward"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/award_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutStar" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayoutStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintVertical_bias="0.65"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <ImageView
+            android:id="@+id/imageViewStar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/junior_currency_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewStarGain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="8"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewStar"
+            app:layout_constraintStart_toEndOf="@+id/imageViewStar"
+            app:layout_constraintTop_toTopOf="@+id/imageViewStar"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

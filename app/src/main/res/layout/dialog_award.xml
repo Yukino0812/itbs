@@ -7,8 +7,8 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayoutAward"
         android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:background="@color/colorBoyLight"
+        android:layout_height="250dp"
+        android:background="@drawable/style_dialog_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -48,7 +48,7 @@
         android:id="@+id/constraintLayoutStar"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:background="@color/colorBoyPrimary"
+        android:background="@drawable/style_dialog_bottom"
         app:layout_constraintEnd_toEndOf="@+id/constraintLayoutAward"
         app:layout_constraintStart_toStartOf="@+id/constraintLayoutAward"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayoutAward">

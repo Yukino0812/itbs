@@ -11,8 +11,8 @@
     <color name="blue">#0000FF</color>
     <color name="colorBoyPrimary">#ABDEF4</color>
     <color name="colorBoyDeep">#15B4FF</color>
-    <color name="colorBoyLight">#8FABDEF4</color>
+    <color name="colorBoyLight">#CEEAF7</color>
     <color name="colorGirlPrimary">#F9BBDB</color>
     <color name="colorGirlDeep">#F67EAB</color>
-    <color name="colorGirlLight">#8FF9BBDB</color>
+    <color name="colorGirlLight">#FAD7E9</color>
 </resources>
