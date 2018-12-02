@@ -98,6 +98,9 @@ public class DateSelector {
     public static Date getFirstDayCurrentWeek() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
+        if (calendar.get(Calendar.DAY_OF_WEEK) == 1) {
+            calendar.add(Calendar.DATE, -1);
+        }
         calendar.set(Calendar.DAY_OF_WEEK, 2);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -114,6 +117,9 @@ public class DateSelector {
     public static Date getFirstDayCurrentWeek(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        if (calendar.get(Calendar.DAY_OF_WEEK) == 1) {
+            calendar.add(Calendar.DATE, -1);
+        }
         calendar.set(Calendar.DAY_OF_WEEK, 2);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
