@@ -96,7 +96,7 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
             userName = user.getUserName();
         }
         if (userName == null || "".equals(userName)) {
-            userName = "User Name";
+            userName = "请先登录";
         }
 
         TextView textViewUserName = findViewById(R.id.textViewUserName);

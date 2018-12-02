@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import org.ihci.itbs.R;
 import org.ihci.itbs.contract.GoalContract;
+import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.pojo.Award;
 import org.ihci.itbs.model.pojo.Goal;
 import org.ihci.itbs.presenter.GoalPresenter;
@@ -152,13 +153,23 @@ public class GoalView extends Activity implements GoalContract.View {
                 buttonSetGoal.setText("正在进行");
             } else {
                 final int finalGoalId = goalId;
-                buttonSetGoal.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        goalPresenter.setUserGoal(goalPresenter.getGoal(finalGoalId));
-                        initRecyclerView();
-                    }
-                });
+                if (GlobalSettingModel.getInstance().getCurrentUserName() == null
+                        || "".equals(GlobalSettingModel.getInstance().getCurrentUserName())) {
+                    buttonSetGoal.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    buttonSetGoal.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            goalPresenter.setUserGoal(goalPresenter.getGoal(finalGoalId));
+                            initRecyclerView();
+                        }
+                    });
+                }
             }
         }
     }

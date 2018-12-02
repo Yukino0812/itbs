@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cunoraz.gifview.library.GifView;
 
@@ -126,26 +127,37 @@ public class BrushView extends Activity implements BrushContract.View, UserContr
     private void initBrushButton() {
         final Button button = findViewById(R.id.buttonBrushControl);
         final GifView brushGifView = findViewById(R.id.gifViewBrush);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                brushPresenter.startBrush();
-                brushGifView.play();
-                button.setText("结束刷牙");
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        brushPresenter.stopBrush();
-                        button.setText("开始刷牙");
+        if (GlobalSettingModel.getInstance().getCurrentUserName() == null
+                || "".equals(GlobalSettingModel.getInstance().getCurrentUserName())
+                || userPresenter.getUser(GlobalSettingModel.getInstance().getCurrentUserName()) == null) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    brushPresenter.startBrush();
+                    brushGifView.play();
+                    button.setText("结束刷牙");
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            brushPresenter.stopBrush();
+                            button.setText("开始刷牙");
 
-                        brushGifView.pause();
+                            brushGifView.pause();
 
-                        showBrushGain();
-                        initBrushButton();
-                    }
-                });
-            }
-        });
+                            showBrushGain();
+                            initBrushButton();
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void showBrushGain() {
@@ -283,13 +295,24 @@ public class BrushView extends Activity implements BrushContract.View, UserContr
 
     private void initConnectToothbrush() {
         ImageView imageViewBluetooth = findViewById(R.id.imageViewBluetooth);
-        imageViewBluetooth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                brushPresenter.connectBrush(0);
-                initManagementView();
-            }
-        });
+        if (GlobalSettingModel.getInstance().getCurrentUserName() == null
+                || "".equals(GlobalSettingModel.getInstance().getCurrentUserName())
+                || userPresenter.getUser(GlobalSettingModel.getInstance().getCurrentUserName()) == null) {
+            imageViewBluetooth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            imageViewBluetooth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    brushPresenter.connectBrush(0);
+                    initManagementView();
+                }
+            });
+        }
     }
 
 }

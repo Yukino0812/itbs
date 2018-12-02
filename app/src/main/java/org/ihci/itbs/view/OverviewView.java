@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,7 @@ import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ihci.itbs.R;
 import org.ihci.itbs.contract.CalendarContract;
@@ -169,7 +171,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
 
     @Override
     public void refreshRecommendItem() {
-        initRecommendContent();
+        initView();
     }
 
     @Override
@@ -279,7 +281,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             userName = user.getUserName();
         }
         if (userName == null || "".equals(userName)) {
-            userName = "User Name";
+            userName = "请先登录";
         }
 
         TextView textViewUserName = findViewById(R.id.textViewUserName);
@@ -367,11 +369,16 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     }
 
     private void initCalendar() {
-        TableLayout tableLayout = findViewById(R.id.tableLayoutCalendar);
-        tableLayout.removeAllViews();
-        initCalendarDayOfWeekText(tableLayout);
-        initCalendarContent(tableLayout);
-        initCalendarDateHint();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TableLayout tableLayout = findViewById(R.id.tableLayoutCalendar);
+                tableLayout.removeAllViews();
+                initCalendarDayOfWeekText(tableLayout);
+                initCalendarContent(tableLayout);
+                initCalendarDateHint();
+            }
+        }, 50);
     }
 
     private void initCalendarDayOfWeekText(TableLayout tableLayout) {
@@ -484,7 +491,9 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         }
 
         constraintLayout.setBackground(gradientDrawable);
-        constraintLayout.setLayoutParams(new TableRow.LayoutParams(getWindowManager().getDefaultDisplay().getWidth() / 7, (getWindowManager().getDefaultDisplay().getHeight() - 800) / 3, 1f));
+
+        int otherHeight = findViewById(R.id.constraintLayoutTop).getHeight() + findViewById(R.id.constraintLayoutTimeDescription).getHeight() + findViewById(R.id.constraintLayoutGoal).getHeight() + getWindowManager().getDefaultDisplay().getHeight() / 7;
+        constraintLayout.setLayoutParams(new TableRow.LayoutParams(getWindowManager().getDefaultDisplay().getWidth() / 7, (getWindowManager().getDefaultDisplay().getHeight() - otherHeight) / 3, 1f));
 
         return constraintLayout;
     }
@@ -538,12 +547,24 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             user = new User();
         }
 
-        findViewById(R.id.constraintLayoutGoalInner).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toGoalView();
-            }
-        });
+        if (GlobalSettingModel.getInstance().getCurrentUserName() == null
+                || "".equals(GlobalSettingModel.getInstance().getCurrentUserName())
+                || userPresenter.getUser(GlobalSettingModel.getInstance().getCurrentUserName()) == null) {
+            findViewById(R.id.constraintLayoutGoalInner).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            findViewById(R.id.constraintLayoutGoalInner).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toGoalView();
+                }
+            });
+        }
+
 
         TextView textViewGoal = findViewById(R.id.textViewGoalDescription);
         Goal goal = user.getGoal();
@@ -610,7 +631,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             userName = user.getUserName();
         }
         if (userName == null || "".equals(userName)) {
-            userName = "User Name";
+            userName = "请先登录";
         }
 
         TextView textViewUserName = header.findViewById(R.id.textViewNavUserName);
@@ -734,7 +755,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             public void onClick(View v) {
                 GlobalSettingModel.getInstance().setRecommend(!GlobalSettingModel.getInstance().isRecommend());
                 recommendSwitch.setChecked(GlobalSettingModel.getInstance().isRecommend());
-                initRecommendContent();
+                initView();
             }
         });
 
