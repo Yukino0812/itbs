@@ -33,7 +33,7 @@ public class AwardModel {
     }
 
     public Award getAward(String awardName) {
-        if(awardName==null||"".equals(awardName)){
+        if (awardName == null || "".equals(awardName)) {
             return null;
         }
         Award award = AwardLocalRepo.getInstance().getAward(awardName);

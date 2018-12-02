@@ -56,7 +56,13 @@ public class AwardLocalRepo implements AwardRepo, Serializable {
             localAwardArrayList = new ArrayList<>();
             return null;
         }
+        if (awardName == null || "".equals(awardName)) {
+            return null;
+        }
         for (Award award : localAwardArrayList) {
+            if (award.getAwardName() == null) {
+                continue;
+            }
             if (award.getAwardName().equals(awardName)) {
                 return award;
             }
@@ -70,9 +76,9 @@ public class AwardLocalRepo implements AwardRepo, Serializable {
     }
 
     private void realSync(List<Award> awards) {
-        if(awards==null){
+        if (awards == null) {
             localAwardArrayList = new ArrayList<>();
-        }else {
+        } else {
             localAwardArrayList = new ArrayList<>(awards);
         }
 
