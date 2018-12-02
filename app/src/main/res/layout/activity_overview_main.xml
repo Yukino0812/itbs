@@ -199,6 +199,7 @@
             android:background="@drawable/arrow_left_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTimeDescription"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -210,6 +211,7 @@
             android:background="@drawable/arrow_right_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewTimeDescription"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

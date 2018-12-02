@@ -86,6 +86,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        final int threshold = 250;
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 lastPressDownX = ev.getX();
@@ -95,16 +96,16 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
                 break;
             case MotionEvent.ACTION_UP:
                 DrawerLayout drawerLayout = findViewById(R.id.drawer_layout_overview);
-                if (ev.getX() > lastPressDownX + 100) {
+                if (ev.getX() > lastPressDownX + threshold) {
                     drawerLayout.openDrawer(GravityCompat.START);
-                } else if (ev.getX() < lastPressDownX - 100) {
+                } else if (ev.getX() < lastPressDownX - threshold) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
 
                 if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    if (ev.getY() > lastPressDownY + 100) {
+                    if (ev.getY() > lastPressDownY + threshold) {
                         findViewById(R.id.buttonTimeDescriptionToLeft).performClick();
-                    } else if (ev.getY() < lastPressDownY - 100) {
+                    } else if (ev.getY() < lastPressDownY - threshold) {
                         findViewById(R.id.buttonTimeDescriptionToRight).performClick();
                     }
                 }
