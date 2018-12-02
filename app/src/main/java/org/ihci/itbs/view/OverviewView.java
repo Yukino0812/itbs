@@ -1,6 +1,7 @@
 package org.ihci.itbs.view;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -8,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,9 @@ import org.ihci.itbs.presenter.RecommendPresenter;
 import org.ihci.itbs.presenter.UserPresenter;
 import org.ihci.itbs.util.DateSelector;
 import org.ihci.itbs.util.StyleSelector;
+import org.ihci.itbs.widget.AwardDialog;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +53,8 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
 
     private CalendarContract.Presenter calendarPresenter;
     private UserContract.Presenter userPresenter;
+
+    private boolean isUpdateRecommendItem = false;
 
     private float lastPressDownX;
     private float lastPressDownY;
@@ -94,16 +100,10 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
                 }
 
                 if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    int x = (int) ev.getX();
-                    int y = (int) ev.getY();
-                    View root = getWindow().getDecorView();
-                    View tableLayout = findTableLayout(root, x, y);
-                    if (tableLayout instanceof TableLayout) {
-                        if (ev.getY() > lastPressDownY + 100) {
-                            findViewById(R.id.buttonTimeDescriptionToLeft).performClick();
-                        } else if (ev.getY() < lastPressDownY - 100) {
-                            findViewById(R.id.buttonTimeDescriptionToRight).performClick();
-                        }
+                    if (ev.getY() > lastPressDownY + 100) {
+                        findViewById(R.id.buttonTimeDescriptionToLeft).performClick();
+                    } else if (ev.getY() < lastPressDownY - 100) {
+                        findViewById(R.id.buttonTimeDescriptionToRight).performClick();
                     }
                 }
 
@@ -185,7 +185,6 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private void initView() {
         calendarPresenter = new CalendarPresenter(this);
         userPresenter = new UserPresenter(this);
-        new RecommendPresenter(this).updateLatestRecommendItem();
 
         initMainView();
         initNavigationView();
@@ -204,7 +203,10 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         initNavRecommendSetting();
         initUiThemeSetting();
 
+        initNavToUserView();
         initNavToAwardView();
+        initNavToGoalView();
+        initNavToBrushView();
     }
 
     private void initRecommendContent() {
@@ -218,6 +220,10 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
 
         List<RecommendItem> recommendItems = RecommendRepo.getInstance().getRecommendItemArrayList();
         if (recommendItems == null || recommendItems.size() == 0) {
+            if (!isUpdateRecommendItem) {
+                isUpdateRecommendItem = true;
+                new RecommendPresenter(this).updateLatestRecommendItem();
+            }
             textViewRecommend.setVisibility(View.GONE);
             return;
         }
@@ -387,30 +393,110 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         for (int week = 0; week < 3; ++week) {
             TableRow tableRow = new TableRow(this);
             for (int dayOfWeek = 0; dayOfWeek < 7; ++dayOfWeek) {
-                boolean isPass = date.compareTo(DateSelector.getStartTimeThisDay(new Date())) < 0;
-                Button button = new Button(this);
-                button.setText(String.valueOf(DateSelector.getDayOfMonth(date)));
-
-                GradientDrawable gradientDrawable = new GradientDrawable();
-                gradientDrawable.setCornerRadius(20f);
-                gradientDrawable.setGradientType(GradientDrawable.RECTANGLE);
-                gradientDrawable.setStroke(4, getResources().getColor(R.color.backgroundWhite));
-
-                if (isPass) {
-                    gradientDrawable.setColor(StyleSelector.getColorLight());
-                } else {
-                    gradientDrawable.setColor(StyleSelector.getColorPrimary());
-                }
-                button.setTextColor(StyleSelector.getTextColor());
-
-                button.setBackground(gradientDrawable);
-                button.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 200, 1f));
-                tableRow.addView(button);
-
+                tableRow.addView(getTableItemView(date, calendarPresenter.listHistoryUse(date)));
                 date = DateSelector.getDaysAfter(date, 1);
             }
             tableRow.setPadding(2, 2, 2, 2);
             tableLayout.addView(tableRow);
+        }
+    }
+
+    private ConstraintLayout getTableItemView(Date date, List<HistoryUse> historyUseList) {
+        boolean isPass;
+        if (date == null) {
+            isPass = false;
+        } else {
+            isPass = date.compareTo(DateSelector.getStartTimeThisDay(new Date())) < 0;
+        }
+
+        ArrayList<Award> awards = new ArrayList<>();
+        int star = 0;
+        if (historyUseList != null) {
+            for (HistoryUse historyUse : historyUseList) {
+                if (historyUse == null) {
+                    continue;
+                }
+                if (historyUse.getGainAward() != null) {
+                    awards.add(historyUse.getGainAward());
+                }
+                if (historyUse.getGainCurrency() != null) {
+                    star += historyUse.getGainCurrency().getSeniorCurrency() * 3 + historyUse.getGainCurrency().getJuniorCurrency();
+                }
+            }
+        }
+
+        ConstraintLayout constraintLayout = new ConstraintLayout(this);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View view;
+        if (historyUseList == null || date == null || date.compareTo(DateSelector.getEndTimeThisDay(new Date())) > 0) {
+            view = layoutInflater.inflate(R.layout.layout_calendar_default, constraintLayout, false);
+            TextView textViewDay = view.findViewById(R.id.textViewDayOfMonth);
+            textViewDay.setText(String.valueOf(DateSelector.getDayOfMonth(date)));
+            textViewDay.setTextColor(StyleSelector.getTextColor());
+        } else if (awards.size() == 0 && star == 0) {
+            view = layoutInflater.inflate(R.layout.layout_calendar_default, constraintLayout, false);
+            TextView textViewDay = view.findViewById(R.id.textViewDayOfMonth);
+            textViewDay.setText(String.valueOf(DateSelector.getDayOfMonth(date)));
+            textViewDay.setTextColor(StyleSelector.getTextColor());
+        } else if (awards.size() == 0) {
+            view = layoutInflater.inflate(R.layout.layout_calendar_no_award, constraintLayout, false);
+            TextView textViewStarGain = view.findViewById(R.id.textViewStarGain);
+            TextView textViewDay = view.findViewById(R.id.textViewDayOfMonth);
+            textViewStarGain.setText(String.valueOf(star));
+            textViewDay.setText(String.valueOf(DateSelector.getDayOfMonth(date)));
+            textViewStarGain.setTextColor(StyleSelector.getTextColor());
+            textViewDay.setTextColor(StyleSelector.getTextColor());
+        } else {
+            view = layoutInflater.inflate(R.layout.layout_calendar_full, constraintLayout, false);
+            ImageView imageViewAward = view.findViewById(R.id.imageViewAward);
+            TextView textViewStarGain = view.findViewById(R.id.textViewStarGain);
+            TextView textViewDay = view.findViewById(R.id.textViewDayOfMonth);
+            imageViewAward.setImageDrawable(getDrawableAwardPicture(awards.get(0).getAwardName()));
+            textViewStarGain.setText(String.valueOf(star));
+            textViewDay.setText(String.valueOf(DateSelector.getDayOfMonth(date)));
+            textViewStarGain.setTextColor(StyleSelector.getTextColor());
+            textViewDay.setTextColor(StyleSelector.getTextColor());
+        }
+
+        constraintLayout.addView(view);
+        if (date != null && date.compareTo(DateSelector.getEndTimeThisDay(new Date())) <= 0) {
+            final int finalStar = star;
+            final ArrayList<Award> awardArrayList = new ArrayList<>(awards);
+            constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AwardDialog awardDialog = new AwardDialog(OverviewView.this, finalStar, awardArrayList);
+                    awardDialog.create();
+                    awardDialog.show();
+                }
+            });
+        }
+
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setCornerRadius(20f);
+        gradientDrawable.setGradientType(GradientDrawable.RECTANGLE);
+        gradientDrawable.setStroke(4, getResources().getColor(R.color.backgroundWhite));
+
+        if (isPass) {
+            gradientDrawable.setColor(StyleSelector.getColorLight());
+        } else {
+            gradientDrawable.setColor(StyleSelector.getColorPrimary());
+        }
+
+        constraintLayout.setBackground(gradientDrawable);
+        constraintLayout.setLayoutParams(new TableRow.LayoutParams(getWindowManager().getDefaultDisplay().getWidth() / 7, (getWindowManager().getDefaultDisplay().getHeight() - 800) / 3, 1f));
+
+        return constraintLayout;
+    }
+
+    private Drawable getDrawableAwardPicture(String awardName) {
+        try {
+            R.drawable instance = new R.drawable();
+            Field field = instance.getClass().getField("award_" + awardName);
+            return ItbsApplication.getContext().getResources().getDrawable(field.getInt(instance));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return ItbsApplication.getContext().getDrawable(R.drawable.award_default);
         }
     }
 
@@ -702,6 +788,19 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         });
     }
 
+    private void initNavToUserView() {
+        NavigationView navigationView = findViewById(R.id.navigationViewMain);
+        View header = navigationView.getHeaderView(0);
+
+        ConstraintLayout constraintLayoutNavGoToUser = header.findViewById(R.id.constraintLayoutNavGoToUser);
+        constraintLayoutNavGoToUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toUserView();
+            }
+        });
+    }
+
     private void initNavToAwardView() {
         NavigationView navigationView = findViewById(R.id.navigationViewMain);
         View header = navigationView.getHeaderView(0);
@@ -711,6 +810,32 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
             @Override
             public void onClick(View v) {
                 toAwardView();
+            }
+        });
+    }
+
+    private void initNavToGoalView() {
+        NavigationView navigationView = findViewById(R.id.navigationViewMain);
+        View header = navigationView.getHeaderView(0);
+
+        ConstraintLayout constraintLayoutNavGoToGoal = header.findViewById(R.id.constraintLayoutNavGoToGoal);
+        constraintLayoutNavGoToGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toGoalView();
+            }
+        });
+    }
+
+    private void initNavToBrushView() {
+        NavigationView navigationView = findViewById(R.id.navigationViewMain);
+        View header = navigationView.getHeaderView(0);
+
+        ConstraintLayout constraintLayoutNavGoToBrush = header.findViewById(R.id.constraintLayoutNavGoToBrush);
+        constraintLayoutNavGoToBrush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toBrushView();
             }
         });
     }
