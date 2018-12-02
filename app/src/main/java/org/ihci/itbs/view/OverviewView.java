@@ -139,8 +139,8 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private View getTouchTarget(View view, int x, int y) {
         View targetView = null;
 
-        ArrayList<View> TouchableViews = view.getTouchables();
-        for (View child : TouchableViews) {
+        ArrayList<View> touchableViews = view.getTouchables();
+        for (View child : touchableViews) {
             if (isTouchPointInView(child, x, y)) {
                 targetView = child;
                 break;

@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="口腔护理知识推荐"
+            android:text="@string/recommend_view_description"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textAlignment="center"
-                android:text="所有推荐信息为网络上内容，与本平台无关，谨防上当受骗" />
+                android:text="@string/recommend_view_note" />
 
         </android.support.constraint.ConstraintLayout>
 

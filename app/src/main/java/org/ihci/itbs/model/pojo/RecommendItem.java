@@ -58,6 +58,7 @@ public class RecommendItem implements Cloneable, Serializable {
         this.updateDate = updateDate;
     }
 
+    @Override
     public RecommendItem clone() throws CloneNotSupportedException {
         return (RecommendItem) super.clone();
     }

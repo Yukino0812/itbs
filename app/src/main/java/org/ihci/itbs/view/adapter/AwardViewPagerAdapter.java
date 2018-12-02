@@ -77,16 +77,17 @@ public class AwardViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(View arg0, int arg1, Object arg2) {
+    public void destroyItem(@NonNull View arg0, int arg1, @NonNull Object arg2) {
         ((ViewPager) arg0).removeView(viewList.get(arg1));
     }
 
     @Override
-    public void finishUpdate(View arg0) {
+    public void finishUpdate(@NonNull View arg0) {
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(View arg0, int arg1) {
+    public Object instantiateItem(@NonNull View arg0, int arg1) {
         ((ViewPager) arg0).addView(viewList.get(arg1), 0);
         return viewList.get(arg1);
     }
@@ -101,7 +102,7 @@ public class AwardViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void startUpdate(View arg0) {
+    public void startUpdate(@NonNull View arg0) {
     }
 
     private Drawable getDrawableAwardPicture(String awardName) {

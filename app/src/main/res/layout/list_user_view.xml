@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="User Name"
+        android:text="@string/user_name_default"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewUserAvatar"
         app:layout_constraintStart_toEndOf="@+id/imageViewUserAvatar"
         app:layout_constraintTop_toTopOf="@+id/imageViewUserAvatar" />
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="删除"
+        android:text="@string/remove"
         app:layout_constraintBottom_toBottomOf="@+id/textViewUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewUserName" />

@@ -14,7 +14,7 @@
         android:textSize="20sp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
-        android:text="推荐内容"
+        android:text="@string/recommend_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="来源："
+        android:text="@string/source"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textViewRecommendItemTitle"
         app:layout_constraintTop_toBottomOf="@+id/textViewRecommendItemTitle" />
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="更新日期："
+        android:text="@string/update_date"
         app:layout_constraintBottom_toBottomOf="@+id/textViewRecommendItemSource"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewRecommendItemSource" />

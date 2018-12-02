@@ -171,10 +171,9 @@ public class BrushPresenter implements BrushContract.Presenter {
         calendar.setTime(date);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if ((hour > 5 && hour < 9)
-                || (hour > 11 && hour < 14)
-                || (hour > 16 && hour < 20)
-                || (hour > 20 && hour < 23)) {
+        boolean properBrushHour = (hour > 5 && hour < 9) || (hour > 11 && hour < 14)
+                || (hour > 16 && hour < 20) || (hour > 20 && hour < 23);
+        if (properBrushHour) {
             gainAwardProbability += 0.1;
         }
         if (dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY) {
@@ -185,7 +184,7 @@ public class BrushPresenter implements BrushContract.Presenter {
             List<Award> awards = AwardRemoteRepo.getInstance().listAllAward();
             ArrayList<Award> littleAwards = new ArrayList<>();
             for (Award award : awards) {
-                if (award.getAwardType().equals("little")) {
+                if ("little".equals(award.getAwardType())) {
                     littleAwards.add(award);
                 }
             }

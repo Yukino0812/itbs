@@ -18,6 +18,7 @@ import org.ihci.itbs.util.StyleSelector;
 import org.ihci.itbs.view.adapter.AwardViewPagerAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Yukino Yukinoshita
@@ -49,7 +50,7 @@ public class AwardDialog extends Dialog {
         view = inflater.inflate(R.layout.dialog_award, null);
         setContentView(view);
 
-        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        Objects.requireNonNull(getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
 
         initViewPager();
         initStar();

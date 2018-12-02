@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="积分好礼"
+            android:text="@string/award_view_description"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="User Name"
+                    android:text="@string/user_name_default"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewUserAvatar"
                     app:layout_constraintStart_toEndOf="@+id/imageViewUserAvatar"
                     app:layout_constraintTop_toTopOf="@+id/imageViewUserAvatar" />
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="1"
+                    android:text="@string/number_default"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewAwardNumber"
                     app:layout_constraintEnd_toStartOf="@+id/imageViewSeniorCurrency"
                     app:layout_constraintTop_toTopOf="@+id/imageViewAwardNumber" />
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="2"
+                    android:text="@string/number_default"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewSeniorCurrency"
                     app:layout_constraintEnd_toStartOf="@+id/imageViewJuniorCurrency"
                     app:layout_constraintTop_toTopOf="@+id/imageViewSeniorCurrency" />
@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="0"
+                    android:text="@string/number_default"
                     app:layout_constraintBottom_toBottomOf="@+id/imageViewJuniorCurrency"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/imageViewJuniorCurrency" />
@@ -169,7 +169,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="我的奖品"
+                    android:text="@string/award_view_my_award"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -201,7 +201,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="精品好礼"
+                    android:text="@string/award_view_big_award"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -232,7 +232,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="趣味好物"
+                    android:text="@string/award_view_medium_award"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -263,7 +263,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="休闲小品"
+                    android:text="@string/award_view_little_award"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -285,7 +285,7 @@
                 android:paddingBottom="80dp"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayoutLittleAward"
                 android:textAlignment="center"
-                android:text="所有图片仅供参考，具体以实物为准" />
+                android:text="@string/award_view_note" />
 
         </android.support.constraint.ConstraintLayout>
 

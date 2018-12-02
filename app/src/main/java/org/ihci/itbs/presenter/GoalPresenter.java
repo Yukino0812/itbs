@@ -135,9 +135,7 @@ public class GoalPresenter implements GoalContract.Presenter {
         if (awardList == null) {
             awardList = new ArrayList<>();
         }
-        if (award != null) {
-            awardList.add(award);
-        }
+        awardList.add(award);
 
         user.setGoal(null);
         user.setCurrency(currency);
