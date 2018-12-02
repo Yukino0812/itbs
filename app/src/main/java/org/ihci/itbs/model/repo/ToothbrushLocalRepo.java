@@ -69,6 +69,9 @@ public class ToothbrushLocalRepo implements ToothbrushRepo, Serializable {
             addToothbrush(toothbrush);
             return;
         }
+        if (toothbrush == null) {
+            return;
+        }
         for (Toothbrush toothbrush1 : localToothbrushArrayList) {
             if (toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()) {
                 toothbrush1.setHistoryUseArrayList(toothbrush.getHistoryUseArrayList());
@@ -80,6 +83,9 @@ public class ToothbrushLocalRepo implements ToothbrushRepo, Serializable {
     public void addToothbrush(Toothbrush toothbrush) {
         if (localToothbrushArrayList == null) {
             localToothbrushArrayList = new ArrayList<>();
+        }
+        if (toothbrush == null) {
+            return;
         }
         localToothbrushArrayList.add(toothbrush);
         save();
@@ -99,6 +105,9 @@ public class ToothbrushLocalRepo implements ToothbrushRepo, Serializable {
     }
 
     public void removeToothbrush(Toothbrush toothbrush) {
+        if (toothbrush == null) {
+            return;
+        }
         removeToothbrush(toothbrush.getToothbrushId());
     }
 

@@ -46,6 +46,9 @@ public class UserRemoteRepo implements UserRepo, Serializable {
             save();
             return false;
         }
+        if (userName == null || "".equals(userName) || userPassword == null || "".equals(userPassword)) {
+            return false;
+        }
         for (User user : userArrayList) {
             if (user.getUserName().equals(userName)) {
                 return user.getUserPassword().equals(userPassword);
@@ -61,6 +64,9 @@ public class UserRemoteRepo implements UserRepo, Serializable {
             save();
             return null;
         }
+        if (userName == null || "".equals(userName)) {
+            return null;
+        }
         for (User user : userArrayList) {
             if (user.getUserName().equals(userName)) {
                 return user;
@@ -73,6 +79,9 @@ public class UserRemoteRepo implements UserRepo, Serializable {
     public void updateUser(String oldUserName, User newUser) {
         if (userArrayList == null) {
             userArrayList = new ArrayList<>();
+        }
+        if (oldUserName == null || "".equals(oldUserName) || newUser == null) {
+            return;
         }
         for (int i = 0; i < userArrayList.size(); ++i) {
             if (userArrayList.get(i).getUserName().equals(oldUserName)) {
@@ -90,6 +99,9 @@ public class UserRemoteRepo implements UserRepo, Serializable {
         if (userArrayList == null) {
             userArrayList = new ArrayList<>();
         }
+        if (user == null) {
+            return false;
+        }
         for (User user1 : userArrayList) {
             if (user1.getUserName().equals(user.getUserName())) {
                 return false;
@@ -105,6 +117,9 @@ public class UserRemoteRepo implements UserRepo, Serializable {
         if (userArrayList == null) {
             userArrayList = new ArrayList<>();
             return false;
+        }
+        if (userName == null || "".equals(userName)) {
+            return true;
         }
         for (User user : userArrayList) {
             if (user.getUserName().equals(userName)) {

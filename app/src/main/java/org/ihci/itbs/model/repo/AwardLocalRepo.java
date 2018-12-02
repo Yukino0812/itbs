@@ -37,6 +37,7 @@ public class AwardLocalRepo implements AwardRepo, Serializable {
         }
         if (INSTANCE == null) {
             INSTANCE = new AwardLocalRepo();
+            INSTANCE.localAwardArrayList = new ArrayList<>();
         }
         return INSTANCE;
     }
@@ -69,7 +70,12 @@ public class AwardLocalRepo implements AwardRepo, Serializable {
     }
 
     private void realSync(List<Award> awards) {
-        localAwardArrayList = new ArrayList<>(awards);
+        if(awards==null){
+            localAwardArrayList = new ArrayList<>();
+        }else {
+            localAwardArrayList = new ArrayList<>(awards);
+        }
+
         save();
     }
 

@@ -67,6 +67,9 @@ public class ToothbrushRemoteRepo implements ToothbrushRepo, Serializable {
         if (toothbrushArrayList == null) {
             toothbrushArrayList = new ArrayList<>();
         }
+        if (toothbrush == null) {
+            return;
+        }
         for (Toothbrush toothbrush1 : toothbrushArrayList) {
             if (toothbrush1.getToothbrushId() == toothbrush.getToothbrushId()) {
                 toothbrush1.setHistoryUseArrayList(new ArrayList<>(toothbrush.getHistoryUseArrayList()));

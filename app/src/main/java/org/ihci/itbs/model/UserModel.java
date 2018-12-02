@@ -33,6 +33,9 @@ public class UserModel {
     }
 
     public User getLocalUser(String userName) {
+        if (userName == null || "".equals(userName)) {
+            return null;
+        }
         User localUser = UserLocalRepo.getInstance().getUser(userName);
         try {
             return localUser.clone();
@@ -43,6 +46,9 @@ public class UserModel {
     }
 
     public User getUser(String userName) {
+        if (userName == null || "".equals(userName)) {
+            return null;
+        }
         User localUser = UserLocalRepo.getInstance().getUser(userName);
         User remoteUser = UserRemoteRepo.getInstance().getUser(userName);
         if (remoteUser == null) {
@@ -58,14 +64,23 @@ public class UserModel {
     }
 
     public boolean checkPassword(String userName, String userPassword) {
+        if (userName == null || "".equals(userName) || userPassword == null || "".equals(userPassword)) {
+            return false;
+        }
         return UserRemoteRepo.getInstance().checkPassword(userName, userPassword);
     }
 
     public boolean isExistUser(String userName) {
+        if (userName == null || "".equals(userName)) {
+            return true;
+        }
         return UserRemoteRepo.getInstance().isExistUser(userName);
     }
 
     public void addUser(User user) {
+        if (user == null) {
+            return;
+        }
         User newUser;
         try {
             newUser = user.clone();
@@ -93,10 +108,16 @@ public class UserModel {
     }
 
     public void removeLocalUser(String userName) {
+        if (userName == null || "".equals(userName)) {
+            return;
+        }
         UserLocalRepo.getInstance().removeUserFromLocal(userName);
     }
 
     public void updateUser(String userName, User user) {
+        if (userName == null || "".equals(userName)) {
+            return;
+        }
         if (user == null) {
             return;
         }
@@ -114,7 +135,9 @@ public class UserModel {
 
     private void syncUser(User localUser, User remoteUser) {
         if (localUser == null) {
-            UserLocalRepo.getInstance().syncRemoteUser(remoteUser);
+            if (remoteUser != null) {
+                UserLocalRepo.getInstance().syncRemoteUser(remoteUser);
+            }
             return;
         }
         if (remoteUser == null) {

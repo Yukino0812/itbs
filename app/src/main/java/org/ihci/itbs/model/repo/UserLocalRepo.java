@@ -61,6 +61,9 @@ public class UserLocalRepo implements UserRepo, Serializable {
             save();
             return true;
         }
+        if (user == null) {
+            return false;
+        }
         for (User user1 : localUserArrayList) {
             if (user1.getUserName().equals(user.getUserName())) {
                 return false;
@@ -82,6 +85,9 @@ public class UserLocalRepo implements UserRepo, Serializable {
             localUserArrayList = new ArrayList<>();
             return null;
         }
+        if (userName == null || "".equals(userName)) {
+            return null;
+        }
         for (User user : localUserArrayList) {
             if (user.getUserName().equals(userName)) {
                 return user;
@@ -96,8 +102,11 @@ public class UserLocalRepo implements UserRepo, Serializable {
             addUser(newUser);
             return;
         }
-        if ("".equals(oldUserName)) {
+        if (oldUserName == null || "".equals(oldUserName)) {
             addUser(newUser);
+        }
+        if (newUser == null) {
+            return;
         }
 
         for (int i = 0; i < localUserArrayList.size(); ++i) {
@@ -119,6 +128,9 @@ public class UserLocalRepo implements UserRepo, Serializable {
             localUserArrayList = new ArrayList<>();
             return false;
         }
+        if (userName == null || "".equals(userName)) {
+            return true;
+        }
         for (User user : localUserArrayList) {
             if (user.getUserName().equals(userName)) {
                 return true;
@@ -128,10 +140,18 @@ public class UserLocalRepo implements UserRepo, Serializable {
     }
 
     public void removeUserFromLocal(String userName) {
+        if (userName == null || "".equals(userName)) {
+            return;
+        }
+        User userToRemove = null;
         for (User user : localUserArrayList) {
             if (user.getUserName().equals(userName)) {
-                localUserArrayList.remove(user);
+                userToRemove = user;
+                break;
             }
+        }
+        if (userToRemove != null) {
+            localUserArrayList.remove(userToRemove);
         }
     }
 

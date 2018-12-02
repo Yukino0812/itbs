@@ -55,10 +55,16 @@ public class ToothbrushModel {
     }
 
     public void removeLocalToothbrush(Toothbrush toothbrush) {
+        if (toothbrush == null) {
+            return;
+        }
         removeLocalToothbrush(toothbrush.getToothbrushId());
     }
 
     public void updateToothbrush(Toothbrush toothbrush) {
+        if (toothbrush == null) {
+            return;
+        }
         Toothbrush newToothbrush;
         try {
             newToothbrush = toothbrush.clone();

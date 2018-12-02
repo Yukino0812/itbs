@@ -66,6 +66,9 @@ public class GoalLocalRepo implements GoalRepo, Serializable {
     }
 
     public boolean syncRemoteRepo(final List<Goal> goals) {
+        if (goals == null) {
+            return false;
+        }
         if (localGoalArrayList == null) {
             realSync(goals);
             return true;
@@ -98,7 +101,12 @@ public class GoalLocalRepo implements GoalRepo, Serializable {
     }
 
     private void realSync(List<Goal> goals) {
-        localGoalArrayList = new ArrayList<>(goals);
+        if (goals == null) {
+            localGoalArrayList = new ArrayList<>();
+        } else {
+            localGoalArrayList = new ArrayList<>(goals);
+        }
+
         save();
     }
 
