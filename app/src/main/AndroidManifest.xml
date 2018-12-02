@@ -28,9 +28,6 @@
             android:name=".view.BrushView"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.GlobalSettingView"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.GoalView"
             android:screenOrientation="portrait" />
         <activity
