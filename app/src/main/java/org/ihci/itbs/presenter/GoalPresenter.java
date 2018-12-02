@@ -67,6 +67,9 @@ public class GoalPresenter implements GoalContract.Presenter {
 
     @Override
     public void setUserGoal(Goal goal) {
+        if (goal == null) {
+            return;
+        }
         User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
         goal.setStartDate(new Date());
         user.setGoal(goal);
@@ -112,6 +115,9 @@ public class GoalPresenter implements GoalContract.Presenter {
 
     @Override
     public void userFinishGoal(int star, Award award) {
+        if (award == null) {
+            return;
+        }
         User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
         if (user == null) {
             return;

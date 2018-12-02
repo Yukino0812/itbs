@@ -62,6 +62,9 @@ public class RecommendPresenter implements RecommendContract.Presenter {
 
     @Override
     public void removeRecommendItem(String link) {
+        if (link == null) {
+            return;
+        }
         ArrayList<RecommendItem> recommendItemArrayList = new ArrayList<>(listRecommendItem());
         for (RecommendItem recommendItem : recommendItemArrayList) {
             if (recommendItem.getLink().equals(link)) {
@@ -74,6 +77,9 @@ public class RecommendPresenter implements RecommendContract.Presenter {
 
     @Override
     public RecommendItem getRecommendItem(String link) {
+        if (link == null) {
+            return null;
+        }
         List<RecommendItem> recommendItemList = listRecommendItem();
         for (RecommendItem recommendItem : recommendItemList) {
             if (recommendItem.getLink().equals(link)) {

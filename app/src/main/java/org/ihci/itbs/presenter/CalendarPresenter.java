@@ -82,6 +82,9 @@ public class CalendarPresenter implements CalendarContract.Presenter {
 
     @Override
     public List<HistoryUse> listHistoryUse(Date from, Date to) {
+        if (from == null || to == null) {
+            return null;
+        }
         Date start = DateSelector.getStartTimeThisDay(from);
         Date end = DateSelector.getEndTimeThisDay(to);
         List<HistoryUse> uses = listHistoryUse();
@@ -101,6 +104,9 @@ public class CalendarPresenter implements CalendarContract.Presenter {
 
     @Override
     public int getCurrency(Date date) {
+        if (date == null) {
+            return 0;
+        }
         List<HistoryUse> uses = listHistoryUse(date);
         if (uses == null) {
             return 0;
@@ -115,6 +121,9 @@ public class CalendarPresenter implements CalendarContract.Presenter {
 
     @Override
     public List<Award> listAward(Date date) {
+        if (date == null) {
+            return null;
+        }
         List<HistoryUse> uses = listHistoryUse(date);
         if (uses == null) {
             return null;

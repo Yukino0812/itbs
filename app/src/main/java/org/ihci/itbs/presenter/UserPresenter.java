@@ -53,6 +53,9 @@ public class UserPresenter implements UserContract.Presenter {
 
     @Override
     public boolean login(String userName, String userPassword) {
+        if (userName == null || "".equals(userName) || userPassword == null || "".equals(userPassword)) {
+            return false;
+        }
         boolean success = userModel.checkPassword(userName, userPassword);
         if (success) {
             GlobalSettingModel.getInstance().setCurrentUserName(userName);
@@ -63,6 +66,9 @@ public class UserPresenter implements UserContract.Presenter {
 
     @Override
     public boolean register(String userName, String userPassword) {
+        if (userName == null || "".equals(userName) || userPassword == null || "".equals(userPassword)) {
+            return false;
+        }
         if (userModel.isExistUser(userName)) {
             return false;
         }
@@ -79,6 +85,9 @@ public class UserPresenter implements UserContract.Presenter {
 
     @Override
     public void changePassword(String userName, String newUserPassword) {
+        if (userName == null || "".equals(userName) || newUserPassword == null || "".equals(newUserPassword)) {
+            return;
+        }
         User user = userModel.getUser(userName);
         user.setUserPassword(newUserPassword);
         userModel.updateUser(userName, user);
@@ -86,6 +95,9 @@ public class UserPresenter implements UserContract.Presenter {
 
     @Override
     public void removeLocalUser(String userName) {
+        if (userName == null || "".equals(userName)) {
+            return;
+        }
         userModel.removeLocalUser(userName);
     }
 

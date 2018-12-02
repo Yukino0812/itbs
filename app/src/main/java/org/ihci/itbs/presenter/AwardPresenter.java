@@ -53,6 +53,9 @@ public class AwardPresenter implements AwardContract.Presenter {
 
     @Override
     public void userGetAward(Award award) {
+        if (award == null) {
+            return;
+        }
         UserModel userModel = new UserModel(this);
         User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
         ArrayList<Award> awards = user.getAwardArrayList();
@@ -66,6 +69,9 @@ public class AwardPresenter implements AwardContract.Presenter {
 
     @Override
     public boolean buyAward(User user, String awardName) {
+        if (user == null || awardName == null || "".equals(awardName)) {
+            return false;
+        }
         UserModel userModel = new UserModel(this);
         User currentUser = userModel.getUser(user.getUserName());
         if (currentUser == null || currentUser.getCurrency() == null) {
