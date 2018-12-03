@@ -30,6 +30,9 @@ import static android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD;
 import static android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
 
 /**
+ * Manage user, including change or remove an user, and add or register a new
+ * user.
+ *
  * @author Yukino Yukinoshita
  */
 

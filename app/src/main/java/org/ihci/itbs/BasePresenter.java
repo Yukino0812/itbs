@@ -6,6 +6,9 @@ package org.ihci.itbs;
 
 public interface BasePresenter {
 
+    /**
+     * Notify presenter to update content.
+     */
     void notifyUpdate();
 
 }

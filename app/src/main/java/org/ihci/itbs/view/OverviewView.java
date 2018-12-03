@@ -48,6 +48,14 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * Main view for this application.
+ * <p>
+ * In the main view, show one of the recommend contents, user information,
+ * brush teeth history calendar, and user goal.
+ * <p>
+ * In the navigation view, show user information, navigation link, and some
+ * application setting.
+ *
  * @author Yukino Yukinoshita
  */
 

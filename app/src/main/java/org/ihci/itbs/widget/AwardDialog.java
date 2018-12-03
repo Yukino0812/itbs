@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Dialog for showing star and award gain.
+ *
  * @author Yukino Yukinoshita
  */
 

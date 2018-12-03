@@ -17,6 +17,8 @@ import org.ihci.itbs.view.adapter.RecommendAdapter;
 import java.util.List;
 
 /**
+ * Recommend something to user
+ *
  * @author Yukino Yukinoshita
  */
 

@@ -8,6 +8,9 @@ import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.view.ItbsApplication;
 
 /**
+ * {@code StyleSelector} for selecting color or drawable object dynamically by
+ * user theme.
+ *
  * @author Yukino Yukinoshita
  */
 

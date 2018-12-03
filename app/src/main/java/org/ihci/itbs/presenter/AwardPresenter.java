@@ -2,7 +2,6 @@ package org.ihci.itbs.presenter;
 
 import org.ihci.itbs.contract.AwardContract;
 import org.ihci.itbs.model.AwardModel;
-import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.UserModel;
 import org.ihci.itbs.model.pojo.Award;
 import org.ihci.itbs.model.pojo.Currency;
@@ -49,22 +48,6 @@ public class AwardPresenter implements AwardContract.Presenter {
     @Override
     public Award getAward(String awardName) {
         return model.getAward(awardName);
-    }
-
-    @Override
-    public void userGetAward(Award award) {
-        if (award == null) {
-            return;
-        }
-        UserModel userModel = new UserModel(this);
-        User user = userModel.getLocalUser(GlobalSettingModel.getInstance().getCurrentUserName());
-        ArrayList<Award> awards = user.getAwardArrayList();
-        if (awards == null) {
-            awards = new ArrayList<>();
-        }
-        awards.add(award);
-        user.setAwardArrayList(awards);
-        userModel.updateUser(user.getUserName(), user);
     }
 
     @Override

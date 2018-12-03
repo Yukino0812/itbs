@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Show all of the goals user can set.
+ *
  * @author Yukino Yukinoshita
  */
 

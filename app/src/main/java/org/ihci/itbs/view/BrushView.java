@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * User brush teeth and get award.
+ * <p>
+ * In management view, user can connect brush and manage connected toothbrush.
+ *
  * @author Yukino Yukinoshita
  */
 

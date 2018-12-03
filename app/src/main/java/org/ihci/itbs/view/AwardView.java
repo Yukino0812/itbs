@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Show awards user gained, and all the awards can get.
+ *
  * @author Yukino Yukinoshita
  */
 
