@@ -148,7 +148,7 @@ public class GoalPresenter implements GoalContract.Presenter {
         viewWeakReference.get().runOnViewThread(new Runnable() {
             @Override
             public void run() {
-                viewWeakReference.get().showGoalList(listAllGoal());
+                viewWeakReference.get().showGoalList();
             }
         });
     }

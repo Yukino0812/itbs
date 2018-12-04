@@ -46,7 +46,7 @@ public class GoalView extends Activity implements GoalContract.View {
     }
 
     @Override
-    public void showGoalList(List<Goal> goals) {
+    public void showGoalList() {
 
     }
 

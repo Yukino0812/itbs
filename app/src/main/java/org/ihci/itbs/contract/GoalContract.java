@@ -22,7 +22,7 @@ public interface GoalContract {
          *
          * @param goals
          */
-        void showGoalList(List<Goal> goals);
+        void showGoalList();
 
         /**
          * Notify view to refresh goal state
