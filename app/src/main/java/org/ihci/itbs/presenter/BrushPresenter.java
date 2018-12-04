@@ -210,14 +210,9 @@ public class BrushPresenter implements BrushContract.Presenter {
                 if (currentToothbrush == null) {
                     return;
                 }
-                Toothbrush toothbrush;
-                try {
-                    toothbrush = currentToothbrush.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                    toothbrush = new Toothbrush();
-                    toothbrush.setHistoryUseArrayList(currentToothbrush.getHistoryUseArrayList());
-                    toothbrush.setToothbrushId(currentToothbrush.getToothbrushId());
+                Toothbrush toothbrush = model.getToothbrush(currentToothbrush.getToothbrushId());
+                if (toothbrush == null) {
+                    return;
                 }
                 ArrayList<HistoryUse> historyUses = new ArrayList<>(toothbrush.getHistoryUseArrayList());
                 HistoryUse use = new HistoryUse();
@@ -228,6 +223,7 @@ public class BrushPresenter implements BrushContract.Presenter {
                 historyUses.add(use);
                 toothbrush.setHistoryUseArrayList(historyUses);
                 model.updateToothbrush(toothbrush);
+                currentToothbrush = toothbrush;
 
                 UserModel userModel = new UserModel(BrushPresenter.this);
                 String currentUserName = GlobalSettingModel.getInstance().getCurrentUserName();
