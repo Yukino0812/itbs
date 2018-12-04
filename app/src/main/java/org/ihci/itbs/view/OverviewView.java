@@ -218,6 +218,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         initNavToAwardView();
         initNavToGoalView();
         initNavToBrushView();
+        initNavToAboutView();
     }
 
     private void initRecommendContent() {
@@ -870,6 +871,19 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         });
     }
 
+    private void initNavToAboutView() {
+        NavigationView navigationView = findViewById(R.id.navigationViewMain);
+        View header = navigationView.getHeaderView(0);
+
+        TextView textViewNavGoToAboutView = header.findViewById(R.id.textViewNavGoToAboutView);
+        textViewNavGoToAboutView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toAboutView();
+            }
+        });
+    }
+
     private void toUserView() {
         Intent intent = new Intent();
         intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.UserView.class);
@@ -897,6 +911,12 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private void toRecommendView() {
         Intent intent = new Intent();
         intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.RecommendView.class);
+        startActivity(intent);
+    }
+
+    private void toAboutView() {
+        Intent intent = new Intent();
+        intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.AboutView.class);
         startActivity(intent);
     }
 

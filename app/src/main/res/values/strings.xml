@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">itbs</string>
-
+    <string name="app_name">儿童智能牙刷系统</string>
     <string name="duck">小鸭子</string>
     <string name="car">小汽车</string>
     <string name="block">积木</string>
@@ -51,4 +50,6 @@
     <string name="star_today">今日得星</string>
     <string name="setting_show_recommend">显示口腔护理知识推荐</string>
     <string name="setting_theme">主题设置</string>
+    <string name="about">关于本系统</string>
+    <string name="app_org">智能人机交互</string>
 </resources>
