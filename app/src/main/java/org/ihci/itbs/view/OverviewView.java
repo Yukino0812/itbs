@@ -388,7 +388,7 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
                 initCalendarContent(tableLayout);
                 initCalendarDateHint();
             }
-        }, 50);
+        }, 33);
     }
 
     private void initCalendarDayOfWeekText(TableLayout tableLayout) {
