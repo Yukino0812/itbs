@@ -86,7 +86,7 @@ public class UserView extends Activity implements UserContract.View {
     private void initRecyclerViewItem() {
         final RecyclerView recyclerView = findViewById(R.id.recyclerViewUser);
         for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
-            ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
+            ConstraintLayout layout = (ConstraintLayout) recyclerView.getLayoutManager().findViewByPosition(i);
             Button deleteButton = layout.findViewById(R.id.buttonDeleteLocalUser);
             ImageView imageViewMark = layout.findViewById(R.id.imageViewMarkCurrentUser);
             final TextView textViewUserName = layout.findViewById(R.id.textViewUserName);

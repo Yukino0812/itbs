@@ -215,7 +215,7 @@ public class BrushView extends Activity implements BrushContract.View, UserContr
 
         final RecyclerView recyclerView = findViewById(R.id.recyclerViewToothbrushList);
         for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
-            ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
+            ConstraintLayout layout = (ConstraintLayout) recyclerView.getLayoutManager().findViewByPosition(i);
             TextView textViewToothbrushId = layout.findViewById(R.id.textViewToothbrushId);
             ImageView imageViewMarkCurrentToothbrush = layout.findViewById(R.id.imageViewMarkCurrentToothbrush);
             Button buttonDeleteToothbrush = layout.findViewById(R.id.buttonDeleteToothbrush);

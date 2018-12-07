@@ -244,7 +244,7 @@ public class AwardView extends Activity implements AwardContract.View, UserContr
 
         for (RecyclerView recyclerView : recyclerViewAry) {
             for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
-                ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
+                ConstraintLayout layout = (ConstraintLayout) recyclerView.getLayoutManager().findViewByPosition(i);
                 if (layout == null) {
                     break;
                 }

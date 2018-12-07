@@ -54,7 +54,7 @@ public class GoalView extends Activity implements GoalContract.View {
     public void notifyGoalFinish(final int star, final Award award) {
         RecyclerView recyclerView = findViewById(R.id.recyclerViewGoalList);
         for (int i = 0; i < recyclerView.getAdapter().getItemCount(); ++i) {
-            ConstraintLayout layout = (ConstraintLayout) recyclerView.getChildAt(i);
+            ConstraintLayout layout = (ConstraintLayout) recyclerView.getLayoutManager().findViewByPosition(i);
             if (layout == null) {
                 return;
             }
