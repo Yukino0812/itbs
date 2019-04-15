@@ -24,7 +24,7 @@ public class ItbsApplication extends Application {
         super.onCreate();
 
         // Hotfix
-        SophixManager.getInstance().queryAndLoadNewPatch();
+//        SophixManager.getInstance().queryAndLoadNewPatch();
 
         providerContext = getApplicationContext();
 

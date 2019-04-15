@@ -69,6 +69,8 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
     private float lastPressDownX;
     private float lastPressDownY;
 
+    private int debugTimes = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -817,6 +819,36 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
                 initNavigationView();
             }
         });
+
+        initDebug();
+    }
+
+    /**
+     * Debug
+     */
+    private void initDebug() {
+        NavigationView navigationView = findViewById(R.id.navigationViewMain);
+        View header = navigationView.getHeaderView(0);
+
+        TextView textViewNavUiThemeSetting = header.findViewById(R.id.textViewNavUiThemeSetting);
+        final ConstraintLayout constraintLayoutNavDebug = header.findViewById(R.id.constraintLayoutNavDebug);
+        constraintLayoutNavDebug.setVisibility(View.GONE);
+        constraintLayoutNavDebug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDebugRes();
+            }
+        });
+
+        textViewNavUiThemeSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                debugTimes++;
+                if (debugTimes % 5 == 0) {
+                    constraintLayoutNavDebug.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void initNavToUserView() {
@@ -918,6 +950,11 @@ public class OverviewView extends AppCompatActivity implements CalendarContract.
         Intent intent = new Intent();
         intent.setClass(org.ihci.itbs.view.OverviewView.this, org.ihci.itbs.view.AboutView.class);
         startActivity(intent);
+    }
+
+    private void getDebugRes() {
+        userPresenter.getDebugRes();
+        initView();
     }
 
 }

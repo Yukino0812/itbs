@@ -5,11 +5,15 @@ import org.ihci.itbs.model.GlobalSettingModel;
 import org.ihci.itbs.model.UserModel;
 import org.ihci.itbs.model.pojo.Award;
 import org.ihci.itbs.model.pojo.Currency;
+import org.ihci.itbs.model.pojo.HistoryUse;
 import org.ihci.itbs.model.pojo.Toothbrush;
 import org.ihci.itbs.model.pojo.User;
+import org.ihci.itbs.model.repo.AwardRemoteRepo;
+import org.ihci.itbs.util.DateSelector;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -105,4 +109,82 @@ public class UserPresenter implements UserContract.Presenter {
     public void notifyUpdate() {
 
     }
+
+    @Override
+    public void getDebugRes() {
+        User user = userModel.getUser(GlobalSettingModel.getInstance().getCurrentUserName());
+        if (user == null) {
+            return;
+        }
+        Date date = new Date();
+
+        Award awardBlock = AwardRemoteRepo.getInstance().getAward("block");
+        Award awardDuck = AwardRemoteRepo.getInstance().getAward("duck");
+        addUserDebugRes(user, DateSelector.getDaysAfter(date, -7), 2, awardBlock);
+        addUserDebugRes(user, DateSelector.getDaysAfter(date, -6), 7, awardBlock);
+        addUserDebugRes(user, DateSelector.getDaysAfter(date, -5), 6, awardDuck);
+        addUserDebugRes(user, DateSelector.getDaysAfter(date, -4), 4, awardBlock);
+        addUserDebugRes(user, DateSelector.getDaysAfter(date, -3), 3, awardBlock);
+        addUserDebugRes(user, DateSelector.getDaysAfter(date, -2), 1, null);
+        addUserDebugRes(user, DateSelector.getDaysAfter(date, -1), 1, awardDuck);
+
+        userModel.updateUser(user.getUserName(), user);
+    }
+
+    private void addUserDebugRes(User user, Date date, int star, Award award) {
+        if (user == null) {
+            return;
+        }
+
+        List<Toothbrush> toothbrushes = user.getToothbrushArrayList();
+        if (toothbrushes == null) {
+            return;
+        }
+        ArrayList<Toothbrush> toothbrushArrayList = new ArrayList<>(toothbrushes);
+        Toothbrush toothbrush;
+        if (toothbrushArrayList.size() == 0) {
+            toothbrush = new Toothbrush();
+        } else {
+            toothbrush = toothbrushArrayList.get(0);
+        }
+
+        List<HistoryUse> historyUses = toothbrush.getHistoryUseArrayList();
+        ArrayList<HistoryUse> newUses;
+        if (historyUses == null) {
+            newUses = new ArrayList<>();
+        } else {
+            newUses = new ArrayList<>(historyUses);
+        }
+
+        int restStar = star;
+        while (restStar != 0) {
+            HistoryUse historyUse = new HistoryUse();
+            if (restStar <= 3) {
+                Currency currency = new Currency();
+                currency.setJuniorCurrency(restStar % 3);
+                currency.setSeniorCurrency(restStar / 3);
+                historyUse.setGainCurrency(currency);
+                if (award != null) {
+                    historyUse.setGainAward(award);
+                }
+                historyUse.setDate(date);
+                historyUse.setDuration(50);
+                restStar = 0;
+            } else {
+                restStar -= 3;
+                Currency currency = new Currency();
+                currency.setSeniorCurrency(1);
+                historyUse.setGainCurrency(currency);
+                if (restStar == 0 && award != null) {
+                    historyUse.setGainAward(award);
+                }
+                historyUse.setDate(date);
+                historyUse.setDuration(50);
+            }
+            newUses.add(historyUse);
+        }
+        toothbrush.setHistoryUseArrayList(newUses);
+        user.setToothbrushArrayList(toothbrushArrayList);
+    }
+
 }

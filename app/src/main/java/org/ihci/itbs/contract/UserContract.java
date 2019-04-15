@@ -75,6 +75,8 @@ public interface UserContract {
          */
         void removeLocalUser(String userName);
 
+        void getDebugRes();
+
     }
 
 }
